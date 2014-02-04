@@ -5,19 +5,15 @@
  * Created on February 5, 2014, 12:10 AM
  */
 
-#ifndef BOOKING_H
-#define	BOOKING_H
+#include <stdio.h>
+#include <string>
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef	__cplusplus
-}
-#endif
-
-#endif	/* BOOKING_H */
-
+class Booking
+{
+private:
+    int bookingID;
+    string bookingName;
+public:
+    Booking();
+    
+};
