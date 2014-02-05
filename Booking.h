@@ -12,7 +12,8 @@ class Booking
 {
 private:
     int bookingID;
-    string bookingName;
+    char bookingName;
+    int duration;
 public:
     Booking();
     
