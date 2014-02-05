@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=222_Assignment2
+PROJECTNAME=trunk
 
 # Active Configuration
 DEFAULTCONF=Debug
