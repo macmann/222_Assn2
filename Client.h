@@ -8,8 +8,7 @@
 #ifndef CLIENT_H
 #define	CLIENT_H
 
-#include <iostream>
-using namespace std;
+#include "HolidayPackageSystem.h"
 
 class Client {
 private:
@@ -40,7 +39,6 @@ public:
     void submitBooking();
     void editBooking();
     bool cancelBooking();
-    
 };
 
 

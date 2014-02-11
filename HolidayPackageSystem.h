@@ -22,7 +22,8 @@ class HolidayPackageSystem {
 public:
     static int callback (void *NotUsed, int argc, char **argv, char **azColName);
     static int countRow (void *NotUsed, int argc, char **argv, char **azColName);
-    string autoID (string tableName);
+    static string autoID (string tableName);
+    static void insertRecord (const char* sql);
 };
 
 #endif	/* HOLIDAYPACKAGESYSTEM_H */
