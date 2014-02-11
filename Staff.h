@@ -25,7 +25,7 @@ public:
     string getStaffPassword();
     void changePassword(string pw);
     //will return staff level
-    int login();
+    static int login(int);
     //will view according to booking status (waiting, confirmed, etc.)
     void viewBooking();
 };

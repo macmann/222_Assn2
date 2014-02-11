@@ -8,6 +8,7 @@
 
 #include "HolidayPackageSystem.h"
 #include "DBInitialization.h"
+#include "HolidayManager.h"
 
 
 int main(int argc, char* argv[])
@@ -17,20 +18,25 @@ int main(int argc, char* argv[])
     
     while(1)
     {
-        cout << "CSCI 222, Test Menu for Database Creation and Reading" << endl;
-        cout << "1) Create DB Called User" << endl;
-        cout << "2) Insert Data to User DB" << endl;
+        cout << "Holiday Package Management System" << endl;
+        cout << "=================================" << endl;
+        cout << "1) Login as Staff" << endl;
+        cout << "2) Login as Client" << endl;
+        cout << "3) Admin Tool: DB Start Initialization" << endl;
         cout << "Enter your option: ";
         cin >> selector;
    
 
         switch (selector)
         {
-            case 1: createTable();
+            case 1: 
+                    Staff::login(1);
+                    
                     break;
-            case 2: insertRecord();
+            case 2: 
                     break;
-            case 3: readTable();
+            case 3: createTable();
+                    insertRecord();    
                     break;
             case 4: editRecord();
                     break;
