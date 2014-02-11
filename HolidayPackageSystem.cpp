@@ -112,8 +112,6 @@ void HolidayPackageSystem::insertRecord(const char* sql) {
       fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
       exit(0);
    }
-   else 
-      fprintf(stderr, "Opened database successfully\n");
  
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
@@ -121,7 +119,7 @@ void HolidayPackageSystem::insertRecord(const char* sql) {
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }else
-      fprintf(stdout, "The record is added successfully\n");
+      fprintf(stdout, "The record is updated successfully\n");
    
    sqlite3_close(db);
 }
