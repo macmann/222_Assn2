@@ -15,6 +15,7 @@
 #include <string>
 #include <string.h>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -22,8 +23,10 @@ class HolidayPackageSystem {
 public:
     static int callback (void *NotUsed, int argc, char **argv, char **azColName);
     static int countRow (void *NotUsed, int argc, char **argv, char **azColName);
+    static int display (void *NotUsed, int argc, char **argv, char **azColName);
     static string autoID (string tableName);
     static void insertRecord (const char* sql);
+    static void displayRecord (const char* sql);
 };
 
 #endif	/* HOLIDAYPACKAGESYSTEM_H */

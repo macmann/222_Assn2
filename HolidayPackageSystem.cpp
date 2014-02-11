@@ -1,11 +1,12 @@
 #include "HolidayPackageSystem.h"
 
+bool isTitleCreated = false;
 int rowCount;
 
 int HolidayPackageSystem::callback (void *NotUsed, int argc, char **argv, char **azColName){
    int i;
    for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+      printf("%s", azColName[i], argv[i] ? argv[i] : "NULL");
    }
    printf("\n");
    return 0;
@@ -19,6 +20,23 @@ int HolidayPackageSystem::countRow (void *NotUsed, int argc, char **argv, char *
     stringstream ss (strRowCount);
     ss >> rowCount;
     
+   return 0;
+}
+
+int HolidayPackageSystem::display (void *NotUsed, int argc, char **argv, char **azColName) {
+   int i;
+   
+   if (!isTitleCreated) {
+       for (i = 0; i < argc; i++)
+            cout << azColName [i] << "\t";
+        isTitleCreated = true;
+        printf("\n");
+   }
+   
+   for (i = 0; i < argc; i++) 
+       cout << argv [i] << "\t"; 
+  
+   printf("\n");
    return 0;
 }
 
@@ -99,6 +117,33 @@ void HolidayPackageSystem::insertRecord(const char* sql) {
  
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+   if( rc != SQLITE_OK ){
+      fprintf(stderr, "SQL error: %s\n", zErrMsg);
+      sqlite3_free(zErrMsg);
+   }else
+      fprintf(stdout, "The record is added successfully\n");
+   
+   sqlite3_close(db);
+}
+
+void HolidayPackageSystem::displayRecord(const char* sql) {
+   sqlite3 *db;
+   char *zErrMsg = 0;
+   int rc;
+
+   /* Open database */
+   rc = sqlite3_open("holiday.db", &db);
+   if( rc ) {
+      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+      exit(0);
+   }
+   else 
+      fprintf(stderr, "Opened database successfully\n");
+ 
+   /* Execute SQL statement */
+   rc = sqlite3_exec(db, sql, display, 0, &zErrMsg);
+   isTitleCreated = false;
+     
    if( rc != SQLITE_OK ){
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
