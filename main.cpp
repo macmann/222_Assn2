@@ -5,31 +5,18 @@
  *
  * Created on February 5, 2014, 12:09 AM
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <sqlite3.h> 
-#include <iostream>
-#include <string>
 
-using namespace std;
+#include "HolidayPackageSystem.h"
 
 void createTable();
-void insertTabale();
+void insertRecord();
 void readTable();
-void editTable();
-
-static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-   int i;
-   for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
-   return 0;
-}
+void editRecord();
 
 int main(int argc, char* argv[])
 {
     int selector; 
+    HolidayPackageSystem h;
     
     while(1)
     {
@@ -45,12 +32,13 @@ int main(int argc, char* argv[])
         {
             case 1: createTable();
                     break;
-            case 2: insertTabale();
+            case 2: insertRecord();
                     break;
             case 3: readTable();
                     break;
-            case 4: editTable();
+            case 4: editRecord();
                     break;
+            case 5: h.autoID ("Staff");
         }
      }
 
@@ -132,25 +120,28 @@ void createTable()
         "passengerFirstName TEXT," \
         "passengerLastName TEXT," \
         "bookingReferenceNo TEXT," \
-        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));" \
-
-        "CREATE TABLE TRANS(" \
-        "bookingReferenceNo TEXT," \
-        "transactionDate TEXT," \
-        "totalAmount REAL," \
-        "PRIMARY KEY (bookingReferenceNo, transactionDate),"
         "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));" ;
-/*
-        "CREATE TABLE Transaction(" \
-        "bookingReferenceNo TEXT NOT NULL," \
-        "transactionDate TEXT NOT NULL," \
-        "totalAmount REAL," \
-        "PRIMARY KEY (bookingReferenceNo, transactionDate),";
-        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo) );";*/
+
+//        "CREATE TABLE TRANS(" \
+//        "bookingReferenceNo TEXT," \
+//        "transactionDate TEXT," \
+//        "totalAmount REAL," \
+//        "PRIMARY KEY (bookingReferenceNo, transactionDate),"
+//        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));" ;
            
+         //  "drop table Trans";
+                
+
+//        "CREATE TABLE Payment(" \
+//        "bookingReferenceNo TEXT," \
+//        "transactionDate TEXT," \
+//        "totalAmount REAL," \
+//        "PRIMARY KEY (bookingReferenceNo, transactionDate),"\
+//        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));";
+//           
    
    /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+   rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, 0, &zErrMsg);
    if( rc != SQLITE_OK ){
    fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
@@ -160,7 +151,7 @@ void createTable()
    sqlite3_close(db);
 }
 
-void insertTabale()
+void insertRecord()
 {
    sqlite3 *db;
    char *zErrMsg = 0;
@@ -207,11 +198,11 @@ void insertTabale()
         "INSERT INTO Passenger VALUES ('A12345678K', 'Jasmine', 'Tan', 'RF00000009');" \
         "INSERT INTO Passenger VALUES ('S12345678D', 'Kristy', 'Win', 'RF00000009');" \
 
-        "INSERT INTO TRANS VALUES ('RF00000009', '07/02/2014', 7000);";
+        "INSERT INTO TRANSACTION VALUES ('RF00000009', '07/02/2014', 7000);";\
 
 
    /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+   rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, 0, &zErrMsg);
    if( rc != SQLITE_OK ){
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
@@ -241,20 +232,23 @@ void readTable()
    }
 
    /* Create SQL statement */
-   sql = "SELECT * from TRANS";
+   sql = "SELECT * from Booking;";
 
    /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
+   rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, (void*)data, &zErrMsg);
+   
    if( rc != SQLITE_OK ){
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }else{
-      fprintf(stdout, "Operation done successfully\n");
+       cout << "rc: " << rc << endl;
+       //printf(stdout, ":D");
+     // fprintf(stdout, "Operation done successfully\n");
    }
    sqlite3_close(db);
 }
 
-void editTable()
+void editRecord()
 {
    sqlite3 *db;
    char *zErrMsg = 0;
@@ -281,7 +275,7 @@ void editTable()
   //       "SELECT * from Staff";
 
    /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
+   rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, (void*)data, &zErrMsg);
    if( rc != SQLITE_OK ){
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
@@ -290,3 +284,5 @@ void editTable()
    }
    sqlite3_close(db);
 }
+
+
