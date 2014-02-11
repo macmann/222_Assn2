@@ -7,13 +7,13 @@
 
 #include "Staff.h"
 
-Staff::login(int selector)
+int Staff::login(int selector)
 {
     switch (selector)
     {
         case 1: 
             
-             SELECT * FROM Staff WHERE Country='Mexico';
+//             SELECT * FROM Staff WHERE Country='Mexico';
             break;
         case 2:
             break;
