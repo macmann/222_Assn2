@@ -15,6 +15,7 @@ class BookingStaff: public Staff {
         bool createClientAccount();
         bool editClientAccount();
         bool processBooking();
+        static void BSMenu();
 };
 
 #endif	/* BOOKINGSTAFF_H */

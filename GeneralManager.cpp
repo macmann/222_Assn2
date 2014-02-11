@@ -70,6 +70,8 @@ bool GeneralManager::deleteStaff()
 
 void GeneralManager::GMmenu()
 {
+    char gmselect;
+    
     cout << "** GM Menu **" << endl;
     cout << "a) Create Holiday Package" << endl;
     cout << "b) Update Holiday Package" << endl;
@@ -78,4 +80,24 @@ void GeneralManager::GMmenu()
     cout << "e) Edit Staff Accounts" << endl;
     cout << "f) Delete Staff Accounts" << endl;
     cout << "Enter your option : ";   
+    cin >> gmselect;
+    
+    switch(gmselect)
+    {
+        case 'a':
+            break;
+        case 'b':
+            break;
+        case 'c':
+            break;
+        case 'd':
+            break;
+        case 'e':
+            break;
+        case 'f':
+            break;
+        default:
+            break;
+                        
+    }
 }

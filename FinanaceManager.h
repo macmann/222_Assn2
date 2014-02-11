@@ -21,6 +21,8 @@ class FinanceManager: public Staff {
         //check the blance the client need to pay
         //deposit excluded
         float checkBalance();
+        
+        static void FMMenu();
 };
 
 #endif	/* FINANACEMANAGER_H */

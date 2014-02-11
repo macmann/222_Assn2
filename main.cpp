@@ -10,6 +10,8 @@
 #include "DBInitialization.h"
 #include "HolidayManager.h"
 #include "GeneralManager.h"
+#include "BookingStaff.h"
+#include "FinanaceManager.h"
 
 
 int main(int argc, char* argv[])
@@ -37,6 +39,10 @@ int main(int argc, char* argv[])
                         GeneralManager::GMmenu();
                     else if(menuValue == 2)
                         HolidayManager::HMmenu();
+                    else if(menuValue == 3)
+                        BookingStaff::BSMenu();
+                    else if(menuValue == 4)
+                        FinanceManager::FMMenu();
                     else if(menuValue == -1)
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
