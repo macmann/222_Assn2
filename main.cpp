@@ -9,11 +9,13 @@
 #include "HolidayPackageSystem.h"
 #include "DBInitialization.h"
 #include "HolidayManager.h"
+#include "GeneralManager.h"
 
 
 int main(int argc, char* argv[])
 {
     int selector; 
+    int menuValue;
     HolidayPackageSystem h;
     
     while(1)
@@ -30,8 +32,13 @@ int main(int argc, char* argv[])
         switch (selector)
         {
             case 1: 
-                    Staff::login(1);
-                    
+                    menuValue = Staff::login(1);
+                    if(menuValue == 1)
+                        GeneralManager::GMmenu();
+                    else if(menuValue == 2)
+                        HolidayManager::HMmenu();
+                    else if(menuValue == -1)
+                        cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 2: 
                     break;

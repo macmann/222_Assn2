@@ -18,7 +18,7 @@ public:
         bool createStaff();
         bool editStaff();
         bool deleteStaff();
-        void GMmenu();
+        static void GMmenu();
 };
 
 #endif	/* GENERALMANAGER_H */

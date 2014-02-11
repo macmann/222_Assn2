@@ -9,6 +9,7 @@
 #define	STAFF_H
 
 #include <iostream>
+#include "HolidayPackageSystem.h"
 using namespace std;
 
 class Staff {
@@ -28,6 +29,9 @@ public:
     static int login(int);
     //will view according to booking status (waiting, confirmed, etc.)
     void viewBooking();
+    static void readRecord(const char* sql);
+    static int Authenticate (void *NotUsed, int argc, char **argv, char **azColName);
+
 };
 
 #endif	/* STAFF_H */
