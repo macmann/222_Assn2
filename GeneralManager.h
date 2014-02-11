@@ -15,9 +15,9 @@ public:
         bool createHolidayPackage();
         bool updateHolidayPackage();
         bool deleteHolidayPackage();
-        bool createStaff();
+        static bool createStaff();
         bool editStaff();
-        bool deleteStaff();
+        static bool deleteStaff();
         static void GMmenu();
 };
 

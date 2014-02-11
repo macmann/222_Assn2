@@ -27,7 +27,7 @@ bool GeneralManager::createStaff()
     string staffID, firstName, lastName, userName, password;
     int staffLevel;
     
-    cout  << "Enter  First Name: ";
+    cout  << "Enter First Name: ";
     cin >> firstName;
     
     cout << "Enter Last Name : ";
@@ -47,25 +47,32 @@ bool GeneralManager::createStaff()
     cout << "Enter your choice: " ; 
     cin >> staffLevel;
     
-    //enter code for sql comments
+    char * sqlAddstaff;
+    sqlAddstaff = sqlite3_mprintf("INSERT INTO Staff VALUES ('S999', '%q', '%q', '%q', '%q', '%i')" 
+                  , firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
+
+    HolidayPackageSystem::insertRecord(sqlAddstaff);
 }
 
 bool GeneralManager::editStaff()
 {
-    string staffName;
-    cout << "Enter the name of staff to Edit: " << endl;
-    cin >> staffName;
+    string staffID;
+    cout << "Enter the name of staff to Edit: " ;
+    cin >> staffID;
     
     //db comment to Edit staff from DB one entry by entry
 }
 
 bool GeneralManager::deleteStaff()
 {
-    string staffName;
-    cout << "Enter the name of staff to delete: " << endl;
-    cin >> staffName;
+    string staffID;
+    cout << "Enter the name of staff to delete: " ;
+    cin >> staffID;
+       
+    char * sqldelstaff;
+    sqldelstaff = sqlite3_mprintf("DELETE FROM Staff WHERE staffID='%q'" , staffID.c_str()); 
     
-    //db comment to delete staff from DB
+    HolidayPackageSystem::insertRecord(sqldelstaff);
 }
 
 void GeneralManager::GMmenu()
@@ -85,16 +92,19 @@ void GeneralManager::GMmenu()
     switch(gmselect)
     {
         case 'a':
+           
             break;
         case 'b':
             break;
         case 'c':
             break;
         case 'd':
+            createStaff();
             break;
         case 'e':
             break;
         case 'f':
+            deleteStaff();            
             break;
         default:
             break;
