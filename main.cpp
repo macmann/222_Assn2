@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
         cout << "CSCI 222, Test Menu for Database Creation and Reading" << endl;
         cout << "1) Create DB Called User" << endl;
         cout << "2) Insert Data to User DB" << endl;
-        cout << "3) Read Data from User DB" << endl;
         cout << "Enter your option: ";
         cin >> selector;
    
