@@ -14,35 +14,43 @@ int HolidayPackageSystem::callback (void *NotUsed, int argc, char **argv, char *
    return 0;
 }
 
+/*callback method used in autoID command executions */
 int HolidayPackageSystem::countRow (void *NotUsed, int argc, char **argv, char **azColName){
  
     string strRowCount;
     strRowCount = argv[0];
    
+    //change row no to int
     stringstream ss (strRowCount);
+    
+    //add the row count value to rowCount global variable
     ss >> rowCount;
     
    return 0;
 }
 
+/*callback method used in displayRecord command executions*/
 int HolidayPackageSystem::display (void *NotUsed, int argc, char **argv, char **azColName) {
    int i;
    
+   //create title if the title is not yet created
    if (!isTitleCreated) {
-       //cout << "No\t";
+       
        for (i = 0; i < argc; i++)
-            cout << azColName [i] << "\t";
+            cout << setw(15) << left << azColName [i] << "\t";
         isTitleCreated = true;
         printf("\n");
    }
    
    for (i = 0; i < argc; i++) 
-       cout << argv [i] << "\t"; 
+       cout << setw(15) << left << argv [i] << "\t"; 
    
    printf("\n");
    return 0;
 }
 
+//create auto ID eg. StaffID ('S0301'), HolidayID ('H001'), HolidayRunID ('R22'),
+//DestinationID ('D003', BookingReferenceNo ('B0012300039')
 string HolidayPackageSystem::autoID (string tableName){
    sqlite3 *db;
    string ID;
@@ -59,7 +67,7 @@ string HolidayPackageSystem::autoID (string tableName){
       exit(0);
    }
    
-   /* Create SQL statement */   
+   /* Create SQL statement to find Row-Count */   
    string sqlCommand = "SELECT count(*) from " + tableName + ";";
 
    const char * sql = sqlCommand.c_str();
@@ -93,18 +101,19 @@ string HolidayPackageSystem::autoID (string tableName){
            ID = "000";
        } 
        else if (tableName.compare("Booking") == 0) 
-            ID = "000000000";
+            ID = "00000";
             
         autoID += ID.substr(str.size()) + str;
               
-       
-         cout << autoID << endl; 
    }
    sqlite3_close(db);
    
    return autoID;
 }
 
+//execute SQL statements (eg. INSERT, UPDATE, DELETE)
+//reduce repetitive codes to execute SQL statements
+//pass the SQL statement to execute it
 void HolidayPackageSystem::executeRecord (const char* sql) {
    sqlite3 *db;
    char *zErrMsg = 0;
@@ -127,6 +136,10 @@ void HolidayPackageSystem::executeRecord (const char* sql) {
    sqlite3_close(db);
 }
 
+//display records of the tables
+//according to the SQL command passed, this method will display the data
+//eg. if this SQL statement is (SELECT * FROM Booking WHERE NRIC = 'G11111111K') passed
+//all data related to it will be displayed
 void HolidayPackageSystem::displayRecord(const char* sql) {
    sqlite3 *db;
    char *zErrMsg = 0;
