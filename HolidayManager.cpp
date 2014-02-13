@@ -59,7 +59,10 @@ bool HolidayManager::processBooking()
 void HolidayManager::HMmenu()
 {
     char hmselect;
-    cout << "** Holiday Manager Menu **" << endl;
+    
+    cout << "===========================" << endl;
+    cout << "** Holiday Manager Menu ***" << endl;
+    cout << "===========================" << endl;
     cout << "a) View and Process Forms" << endl;
     cout << "b) Delete Client Account" << endl;
     cout << "c) List Customer on Holiday Package" << endl;
