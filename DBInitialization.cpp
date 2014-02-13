@@ -43,12 +43,15 @@ void createTable()
         "FOREIGN KEY (destinationCode) REFERENCES Destination (destinationCode));" \
 
         "CREATE TABLE HolidayRun(" \
+        "holidayrunID TEXT NOT NULL," \
         "holidayID TEXT," \
+        "destinationCode TEXT," \
         "startDate TEXT NOT NULL," \
         "endDate TEXT NOT NULL," \
         "holidayPrice REAL," \
         "spacePerHRun INT," \
-        "PRIMARY KEY (holidayID, startDate, endDate)," \
+        "PRIMARY KEY (holidayrunID)," \
+        "FOREIGN KEY (destinationCode) REFERENCES Destination (destinationCode)," \
         "FOREIGN KEY (holidayID) REFERENCES HolidayPackage (holidayID));" \
 
 
@@ -69,11 +72,9 @@ void createTable()
         "bookingStatus TEXT NOT NULL," \
         "deposit REAL," \
         "specialRequirement TEXT," \
-        "holidayID TEXT NOT NULL," \
-        "startDate TEXT NOT NULL," \
-        "endDate TEXT NOT NULL," \
+        "holidayrunID TEXT NOT NULL," \
         "NRIC TEXT NOT NULL," \
-        "FOREIGN KEY (holidayID, startDate, endDate) REFERENCES HolidayRun (holidayID, startDate, endDate)," \
+        "FOREIGN KEY (holidayrunID) REFERENCES HolidayRun (holidayrunID)," \
         "FOREIGN KEY (NRIC) REFERENCES Booking (NRIC));" \
 
         "CREATE TABLE Passenger(" \
@@ -142,24 +143,27 @@ void insertRecord()
         "INSERT INTO HolidayPackage VALUES ('H002', 'Small Adventure', 'D001');" \
         "INSERT INTO HolidayPackage VALUES ('H003', 'Big Adventure', 'D003');" \
 
-        "INSERT INTO HolidayRun VALUES ('H002', '09/02/2014', '11/02/2014', 3000, 50);" \
-        "INSERT INTO HolidayRun VALUES ('H002', '01/03/2014', '03/03/2014', 3500, 30);" \
-        "INSERT INTO HolidayRun VALUES ('H003', '01/04/2014', '28/03/2014', 20000, 60);" \
-        "INSERT INTO HolidayRun VALUES ('H002', '16/02/2014', '01/03/2014', 7000, 40);" \
+        "INSERT INTO HolidayRun VALUES ('R001', 'H002', 'D001', '09/02/2014', '11/02/2014', 3000, 50);" \
+        "INSERT INTO HolidayRun VALUES ('R002', 'H002', 'D002', '01/03/2014', '03/03/2014', 3500, 30);" \
+        "INSERT INTO HolidayRun VALUES ('R003', 'H003', 'D003', '01/04/2014', '28/03/2014', 20000, 60);" \
+        "INSERT INTO HolidayRun VALUES ('R004', 'H002', 'D001', '16/02/2014', '01/03/2014', 7000, 40);" \
 
 
         "INSERT INTO Client VALUES ('G12345678K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi St', 'Clementi', 'Singapore', 'S120111');" \
         "INSERT INTO Client VALUES ('S12345678D', 'kristy@gmail.com', 'kristy123', 'Kristy', 'Win', 'Punggol St', 'Punggol', 'Singapore', 'S234567');" \
+        "INSERT INTO Client VALUES ('S12345678S', 'kaung@gmail.com', 'kaung', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
 
 
-        "INSERT INTO Booking VALUES('RF00000012', '09/02/2014', 'Waiting', 200, '-', 'H003', '01/04/2014', '28/04/2014', 'G12345678K');" \
-        "INSERT INTO Booking VALUES('RF00000009', '07/02/2014', 'Confirmed', 500, '-', 'H002', '01/03/2014', '03/03/2014', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('RF00000012', '09/02/2014', 'Waiting', 200, '-', 'R001', 'G12345678K');" \
+        "INSERT INTO Booking VALUES('RF00000009', '07/02/2014', 'Confirmed', 500, '-', 'R002', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('RF00000008', '07/02/2014', 'Checked', 500, '-', 'R002', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('RF00000006', '07/02/2014', 'Complete', 500, '-', 'R002', 'S12345678D');" \
 
 
         "INSERT INTO Passenger VALUES ('A12345678K', 'Jasmine', 'Tan', 'RF00000009');" \
-        "INSERT INTO Passenger VALUES ('S12345678D', 'Kristy', 'Win', 'RF00000009');" \
+        "INSERT INTO Passenger VALUES ('S12345678D', 'Kristy', 'Win', 'RF00000009');"; \
 
-        "INSERT INTO TRANSACTION VALUES ('RF00000009', '07/02/2014', 7000);";\
+    //    "INSERT INTO TRANSACTION VALUES ('RF00000009', '07/02/2014', 7000);";\
 
 
    /* Execute SQL statement */
@@ -193,7 +197,7 @@ void readTable()
    }
 
    /* Create SQL statement */
-   sql = "SELECT * from Booking;";
+   sql = "SELECT * from Staff;";
 
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, (void*)data, &zErrMsg);
