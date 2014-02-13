@@ -46,7 +46,7 @@ bool GeneralManager::createHolidayPackage()
     sqladdHolidayPkg = sqlite3_mprintf("INSERT INTO HolidayRun VALUES ('R999','%q' , '%q', '%q', '%q', '%f', '%i')"  
             , HRCode.c_str(), destCdoe.c_str(), sD.c_str(), eD.c_str(), price, spr); 
    
-    HolidayPackageSystem::insertRecord(sqladdHolidayPkg);
+    HolidayPackageSystem::executeRecord(sqladdHolidayPkg);
     HolidayPackageSystem::displayRecord("SElECT * FROM HolidayRun WHERE holidayrunID='R999';");
 }
 
@@ -64,7 +64,7 @@ bool GeneralManager::deleteHolidayPackage()
     char * sqldelHR;
     sqldelHR = sqlite3_mprintf("DELETE FROM HolidayRun WHERE holidayrunID='%q'" , HRID.c_str()); 
     
-    HolidayPackageSystem::insertRecord(sqldelHR);
+    HolidayPackageSystem::executeRecord(sqldelHR);
 }
 
 bool GeneralManager::createStaff()
@@ -98,7 +98,7 @@ bool GeneralManager::createStaff()
     sqlAddstaff = sqlite3_mprintf("INSERT INTO Staff VALUES ('%q', '%q', '%q', '%q', '%q', '%i')" ,
                   newID.c_str(), firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
 
-    HolidayPackageSystem::insertRecord(sqlAddstaff);
+    HolidayPackageSystem::executeRecord(sqlAddstaff);
 }
 
 bool GeneralManager::editStaff()
@@ -119,7 +119,7 @@ bool GeneralManager::deleteStaff()
     char * sqldelstaff;
     sqldelstaff = sqlite3_mprintf("DELETE FROM Staff WHERE staffID='%q'" , staffID.c_str()); 
     
-    HolidayPackageSystem::insertRecord(sqldelstaff);
+    HolidayPackageSystem::executeRecord(sqldelstaff);
 }
 
 void GeneralManager::GMmenu()

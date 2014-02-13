@@ -1,13 +1,27 @@
 #include "HolidayManager.h"
 
-bool HolidayManager::deleteClientAccount(string nric)
+bool HolidayManager::deleteClientAccount()
 {
+    string tempNRIC;
+    cout << "Enter the NRIC of the client to delete: ";
+    cin >> tempNRIC;
     
+    char * sqldelclient;
+    sqldelclient = sqlite3_mprintf("DELETE FROM Client WHERE NRIC='%q'" , tempNRIC.c_str()); 
+    
+    HolidayPackageSystem::executeRecord(sqldelclient);
 };
 
 bool HolidayManager::checkSpace()
 {
+    string HrID;
+    cout  << "Enter the Holday Run ID to Check: " ;
+    cin >> HrID;
     
+    char * sqlViewClientonPackage;
+    sqlViewClientonPackage = sqlite3_mprintf("SELECT * FROM Booking where holidayrunID='%q' AND bookingStatus='Complete';", HrID.c_str());
+    HolidayPackageSystem::displayRecord(sqlViewClientonPackage);
+
 }
 
 bool HolidayManager::processBooking()
@@ -35,7 +49,7 @@ bool HolidayManager::processBooking()
         tempstatus = "Waiting";
     
     sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where bookingReferenceNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
-    HolidayPackageSystem::insertRecord(sqlchangeBookingsStatus); 
+    HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     
     char * sqlViewUpdateBookingsStatus;
     sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where bookingReferenceNO='%q';", tempBkRef.c_str());
@@ -60,9 +74,11 @@ void HolidayManager::HMmenu()
             HMmenu();
             break;
         case 'b':
+            deleteClientAccount;
             HMmenu();
             break;
         case 'c':
+            checkSpace();
             HMmenu();
             break;
         case 'x':

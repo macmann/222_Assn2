@@ -12,7 +12,7 @@
 
 class HolidayManager: public Staff {
     public:
-        static bool deleteClientAccount(string nric);
+        static bool deleteClientAccount();
         
         //check holiday per run 
         //if no more space, the client will be in waiting list
