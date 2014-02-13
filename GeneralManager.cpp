@@ -126,7 +126,7 @@ void GeneralManager::GMmenu()
 {
     char gmselect;
     
-    cout << "===========================" << endl;
+    cout << "\n\n===========================" << endl;
     cout << "** General Manager Menu **" << endl;
     cout << "===========================" << endl;
     cout << "a) Create Holiday Package" << endl;

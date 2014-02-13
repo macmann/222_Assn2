@@ -99,7 +99,7 @@ void BookingStaff::BSMenu()
 {
     char bsselect;
     
-    cout << "===========================" << endl;
+    cout << "\n\n===========================" << endl;
     cout << "*** Booking Staff Menu ****" << endl;
     cout << "===========================" << endl;
     cout << "a) View Forms Submitted by Clients" << endl;

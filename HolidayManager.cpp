@@ -60,7 +60,7 @@ void HolidayManager::HMmenu()
 {
     char hmselect;
     
-    cout << "===========================" << endl;
+    cout << "\n\n===========================" << endl;
     cout << "** Holiday Manager Menu ***" << endl;
     cout << "===========================" << endl;
     cout << "a) View and Process Forms" << endl;

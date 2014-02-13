@@ -8,11 +8,50 @@
 
 #include "FinanaceManager.h"
 
+bool FinanceManager::viewCancelledBooking()
+{
+    char * sqlviewBookings;
+    sqlviewBookings = sqlite3_mprintf("SELECT * FROM Booking WHERE bookingStatus='Cancel' ;");
+    HolidayPackageSystem::displayRecord(sqlviewBookings);
+}
+
+bool FinanceManager::processBooking()
+{
+    string tempBkRef, tempstatus;
+    int selector;
+    char * sqlviewBookings;
+    sqlviewBookings = sqlite3_mprintf("SELECT * FROM Booking WHERE bookingStatus='Payment' ;");
+    HolidayPackageSystem::displayRecord(sqlviewBookings);
+    
+    cout << "Enter the booking reference no to process: " ;
+    cin >> tempBkRef;
+    
+    char * sqlchangeBookingsStatus;
+    
+    cout << "Choose the status to update " << endl;
+    cout << "1) Confirm Booking" << endl;
+    cout << "2) Cancel Booking" << endl;
+    cout << "Enter your option: " ; 
+    cin >> selector;
+    
+    if(selector == 1)
+        tempstatus = "Confirmed";
+    else
+        tempstatus = "Cancel";
+    
+    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where bookingReferenceNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
+    HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
+    
+    char * sqlViewUpdateBookingsStatus;
+    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where bookingReferenceNO='%q';", tempBkRef.c_str());
+    HolidayPackageSystem::displayRecord(sqlViewUpdateBookingsStatus);
+}
+
 void FinanceManager::FMMenu()
 {
     char fmselect;
     
-    cout << "===========================" << endl;
+    cout << "\n\n===========================" << endl;
     cout << "*** Finance Manager Menu **" << endl;
     cout << "===========================" << endl;
 
@@ -25,9 +64,11 @@ void FinanceManager::FMMenu()
     switch(fmselect)
     {
         case 'a': 
+            processBooking();
             FMMenu();
             break;
         case 'b':
+            viewCancelledBooking();
             FMMenu();
             break;
         case 'x': 
