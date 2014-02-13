@@ -116,6 +116,7 @@ void BookingStaff::BSMenu()
             BSMenu();
             break;
         case 'b':
+            createClientAccount();
             BSMenu();
             break;
         case 'c':
