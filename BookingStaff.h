@@ -12,9 +12,9 @@
 
 class BookingStaff: public Staff {
     public:
-        bool createClientAccount();
-        bool editClientAccount();
-        bool processBooking();
+        static bool createClientAccount();
+        static bool editClientAccount();
+        static bool processBooking();
         static void BSMenu();
 };
 

@@ -12,11 +12,11 @@
 
 class GeneralManager : public Staff {
 public:
-        bool createHolidayPackage();
-        bool updateHolidayPackage();
-        bool deleteHolidayPackage();
+        static bool createHolidayPackage();
+        static bool updateHolidayPackage();
+        static bool deleteHolidayPackage();
         static bool createStaff();
-        bool editStaff();
+        static bool editStaff();
         static bool deleteStaff();
         static void GMmenu();
 };

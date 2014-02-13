@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
             case 3: createTable();
                     insertRecord();    
                     break;
-            case 4: editRecord();
+            case 4: readTable();
                     break;
             case 5: h.autoID ("Staff");
         }

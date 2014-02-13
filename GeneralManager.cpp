@@ -9,7 +9,45 @@
 
 bool GeneralManager::createHolidayPackage()
 {
+    string destCdoe, HRCode, sD, eD;
+    float price;
+    int spr;
+    cout  << "Please choice the destination!" << endl;
     
+    char * sqlDestination;
+    sqlDestination = sqlite3_mprintf("SELECT * FROM Destination ;");
+    HolidayPackageSystem::displayRecord(sqlDestination);
+    
+    cout <<"Enter Destination Code : ";
+    cin >> destCdoe;
+    
+    cout << "Choose the Holiday Run" << endl;
+    
+    char * sqlHolidayRun;
+    sqlHolidayRun = sqlite3_mprintf("SELECT * FROM  HolidayPackage ;");
+    HolidayPackageSystem::displayRecord(sqlHolidayRun);
+    
+    cout <<"Enter Holiday Run Code : ";
+    cin >> HRCode;
+    
+    cout << "Enter start date: ";
+    cin >> sD;
+    
+    cout << "Enter end date: " ;
+    cin >> eD;
+    
+    cout << "Enter price: " ;
+    cin >> price;
+    
+    cout << "space per run: " ;
+    cin >> spr;
+    
+    char * sqladdHolidayPkg;
+    sqladdHolidayPkg = sqlite3_mprintf("INSERT INTO HolidayRun VALUES ('R999','%q' , '%q', '%q', '%q', '%f', '%i')"  
+            , HRCode.c_str(), destCdoe.c_str(), sD.c_str(), eD.c_str(), price, spr); 
+   
+    HolidayPackageSystem::insertRecord(sqladdHolidayPkg);
+    HolidayPackageSystem::displayRecord("SElECT * FROM HolidayRun WHERE holidayrunID='R999';");
 }
 
 bool GeneralManager::updateHolidayPackage()
@@ -19,7 +57,14 @@ bool GeneralManager::updateHolidayPackage()
 
 bool GeneralManager::deleteHolidayPackage()
 {
+    string HRID;
+    cout << "Enter the name of HolidayRun ID  to delete: " ;
+    cin >> HRID;
+       
+    char * sqldelHR;
+    sqldelHR = sqlite3_mprintf("DELETE FROM HolidayRun WHERE holidayrunID='%q'" , HRID.c_str()); 
     
+    HolidayPackageSystem::insertRecord(sqldelHR);
 }
 
 bool GeneralManager::createStaff()
@@ -47,9 +92,11 @@ bool GeneralManager::createStaff()
     cout << "Enter your choice: " ; 
     cin >> staffLevel;
     
-    char * sqlAddstaff;
-    sqlAddstaff = sqlite3_mprintf("INSERT INTO Staff VALUES ('S999', '%q', '%q', '%q', '%q', '%i')" 
-                  , firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
+    string newID = HolidayPackageSystem::autoID("Staff");
+        char * sqlAddstaff;
+
+    sqlAddstaff = sqlite3_mprintf("INSERT INTO Staff VALUES ('%q', '%q', '%q', '%q', '%q', '%i')" ,
+                  newID.c_str(), firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
 
     HolidayPackageSystem::insertRecord(sqlAddstaff);
 }
@@ -86,25 +133,35 @@ void GeneralManager::GMmenu()
     cout << "d) Create Staff Accounts" << endl;
     cout << "e) Edit Staff Accounts" << endl;
     cout << "f) Delete Staff Accounts" << endl;
+    cout << "x) Log Out" << endl;
     cout << "Enter your option : ";   
     cin >> gmselect;
     
     switch(gmselect)
     {
         case 'a':
-           
+           createHolidayPackage();
+           GMmenu();
             break;
         case 'b':
+            GMmenu();
             break;
         case 'c':
+            deleteHolidayPackage();
+            GMmenu();
             break;
         case 'd':
             createStaff();
+            GMmenu();
             break;
         case 'e':
+            GMmenu();
             break;
         case 'f':
-            deleteStaff();            
+            deleteStaff(); 
+            GMmenu();
+            break;
+        case 'x':          
             break;
         default:
             break;

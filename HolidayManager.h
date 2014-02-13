@@ -12,12 +12,12 @@
 
 class HolidayManager: public Staff {
     public:
-        bool deleteClientAccount(string nric);
+        static bool deleteClientAccount(string nric);
         
         //check holiday per run 
         //if no more space, the client will be in waiting list
-        bool checkSpace();
-        bool processBooking();
+        static bool checkSpace();
+        static bool processBooking();
         static void HMmenu();
 };
 

@@ -13,14 +13,14 @@
 class FinanceManager: public Staff {
     public:
         //still don't know need or not
-        int processPayment();
-        bool processBooking();
+        static int processPayment();
+        static bool processBooking();
         //check full amount the client need to pay
         //deposit included
-        float checkTotalAmount();
+        static float checkTotalAmount();
         //check the blance the client need to pay
         //deposit excluded
-        float checkBalance();
+        static float checkBalance();
         
         static void FMMenu();
 };
