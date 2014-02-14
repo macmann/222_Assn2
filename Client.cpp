@@ -1,35 +1,31 @@
 #include "Client.h"
 
-//string Client::getNRIC() 
-//void Client::setNRIC(string);
-//string Client::getEmail();
-//void Client::setEmail(string);
-//string Client::getPassword();
-//void Client::setPassword(string);
-//string Client::getClientFirstName();
-//void Client::setClientFirstName(string);
-//string Client::getClientLastName();
-//void Client::setClientLastName(string);
-//string Client::getAddress();
-//void Client::setAddress(string sName, string town, string city, string code);
-
-int Client::login() {
+void Client::cMenu() {
+    char option;
     
+    cout << "** Client Menu **" << endl;
+    cout << "a) Submit Booking\nb) Edit Booking\nc) Cancel Booking\n";
+    cout << "Enter your option : ";   
+    cin >> option;
 }
 
-void Client::submitBooking() {
-    string holidayID = "", firstName, lastName, specialRequirement = "", nric = "";
-    string bookingRefNo = "", bookingDate = "";
-    int option = 0;
+bool Client::submitBooking() {
+    string holidayRunID, specialRequirement;
+    string  bookingRefNo, bookingDate = "";
     float deposit;
-    char addNext;
     
-    cout << "Choose holiday package by ID: ";
-    cin >> holidayID;
+    string sqlCommand = "SELECT holidayRunID, holidayType, destinationName, startDate, endDate,  holidayPrice "\
+"FROM HolidayPackage INNER JOIN HolidayRun ON HolidayPackage.holidayID = HolidayRun.holidayID "\
+"INNER JOIN Destination ON HolidayPackage.destinationCode = Destination.destinationCode;";
+    const char *sql = sqlCommand.c_str();
+    HolidayPackageSystem::displayRecord(sql);
     
+    cout << "Choose holiday package ID: ";
+    cin >> holidayRunID;
     cout << "Enter deposit: ";
     cin >> deposit;
     cout << "Enter special treatment: ";
+    cin.ignore();
     getline(cin, specialRequirement);
     
     time_t now;
@@ -38,56 +34,70 @@ void Client::submitBooking() {
     struct tm * Date = localtime(&now);
     
     //  Convert current time to (DDMMYY)  
-    strftime (buffer,20,"%d%b%y",Date);
+    strftime (buffer,20,"%d/%m/%Y",Date);
     bookingDate = buffer;
     
     //retrieve new ID for Booking
     bookingRefNo = HolidayPackageSystem::autoID ("Booking");
     
-    cout << "Booking ID " << bookingRefNo;
-    
-    char * sql1 = sqlite3_mprintf("INSERT INTO Booking VALUES ('%q', '%q', '%q', '%f', '%q', 'H003', '01/04/2014', '28/04/2014', 'G12345678K');"
-         ,bookingRefNo.c_str(), bookingDate.c_str(), "Pending", deposit, specialRequirement.c_str());
+    char * sql1 = sqlite3_mprintf("INSERT INTO Booking VALUES ('%q', '%q', '%q', '%f', '%q', '%q', 'G1111111K');" 
+    ,bookingRefNo.c_str(), bookingDate.c_str(), "Pending", deposit, specialRequirement.c_str(), holidayRunID.c_str());
    
-     HolidayPackageSystem::insertRecord(sql1);
-     
-    cout << " 1) Book for yourself\n"\
-            " 2) Book for yourself and others\n"\
-            " 3) Book for others\n";
-    cout << "Choose option: ";
-    cin >> option;
-    
-    /*display client info*/
-    if (option == 1 || option == 2) {
-        //displayClientInfo();
-    }
-
-    /*add passenger info then to Passenger table*/
-    if (option == 2 || option == 3) {
-        while (true) {
-            cout << "Enter passenger NRIC: ";
-            cin >> nric;
-            cout << "Enter passenger first name: ";
-            cin >> firstName;
-            cout << "Enter passenger last name:";
-            getline(cin, lastName);
-
-            string sqlCommand2 = "INSERT INTO Passenger VALUES ('nric', 'firstName', 'lastName', " + bookingRefNo + ");";
-            const char * sql2 = sqlCommand2.c_str();
-             
-            HolidayPackageSystem::insertRecord(sql2);
-            
-            cout << "Add more passenger? [y/n]: ";
-            cin >> addNext;
-
-            if(addNext == 'n' || addNext == 'N') {
-                break;
-            }  
-            
-        }
-    }   
-    
+     HolidayPackageSystem::executeRecord(sql1);
+      
+     cout << endl;
 }
 
-void editBooking();
-bool cancelBooking();
+
+bool Client::editBooking() {
+    int option; 
+    float deposit;
+    string bookingRefNo, editedValue, sqlCommand1, sqlCommand2;
+    char *sqlUpdate;
+    //string sqlCommand = "SELECT * FROM Booking WHERE NRIC = " + NRIC;
+    
+    sqlCommand1 = "SELECT * FROM Booking WHERE NRIC = 'G1111111K'";
+    const char * sql = sqlCommand1.c_str();
+    HolidayPackageSystem::displayRecord(sql);
+    
+    cout << "Select by Booking Reference No: ";
+    cin >> bookingRefNo;
+    
+    cout << "(1) Deposit\n(2) Special Requirement\n(3) Holiday Package\n";
+    cout << "Select element to be edited : ";
+    cin >> option;
+    
+    if (option == 1 || option == 2) {
+        cout << "Enter new value: ";
+        cin.ignore();
+        getline(cin, editedValue);
+
+        switch(option) {
+            case 1: {
+                stringstream ss (editedValue);
+                ss >> deposit;
+                
+                sqlUpdate = sqlite3_mprintf("UPDATE Booking Deposit = '%f' WHERE bookingReferenceNo = '%s';"
+                , deposit, bookingRefNo.c_str());
+                break;
+                }
+            case 2: {
+                sqlUpdate = sqlite3_mprintf("UPDATE Booking specialRequirement = '%s' WHERE bookingReferenceNo = '%s';"
+                , editedValue.c_str(), bookingRefNo.c_str());
+                break;
+                }
+            }
+    }
+    else if (option == 3) {
+        
+        sqlUpdate = sqlite3_mprintf("UPDATE Booking holidayRunID = '%s' WHERE bookingReferenceNo = '%s';"
+        , editedValue.c_str(), bookingRefNo.c_str());
+
+    }
+    HolidayPackageSystem::executeRecord (sqlUpdate);
+}
+    
+
+bool cancelBooking() {
+    
+}
