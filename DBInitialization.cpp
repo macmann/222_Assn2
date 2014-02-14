@@ -25,82 +25,57 @@ void createTable()
 
    /* Create SQL statement */
    sql = "CREATE TABLE Staff("  \
-         "staffID TEXT PRIMARY KEY," \
-         "staffFirstName TEXT NOT NULL," \
-         "staffLastName TEXT NOT NULL," \
-         "staffUserName TEXT NOT NULL," \
-         "staffPassword TEXT NOT NULL," \
-         "staffLevel TEXT NOT NULL);" \
-                                        
-         "CREATE TABLE Destination(" \
-         "destinationCode TEXT PRIMARY KEY," \
-        "destinationName TEXT NOT NULL);" \
+        "StaffID TEXT PRIMARY KEY," \
+        "StaffFirstName TEXT NOT NULL," \
+        "StaffLastName TEXT NOT NULL," \
+        "StaffUserName TEXT NOT NULL," \
+        "StaffPassword TEXT NOT NULL," \
+        "StaffLevel TEXT NOT NULL);" \
+
+        "CREATE TABLE Destination(" \
+        "DestinationCode TEXT PRIMARY KEY," \
+        "DestinationName TEXT NOT NULL);" \
 
         "CREATE TABLE HolidayPackage(" \
-        "holidayID TEXT PRIMARY KEY," \
-        "holidayType TEXT NOT NULL," \
-        "destinationCode TEXT," \
+        "HolidayID TEXT PRIMARY KEY," \
+        "HolidayType TEXT NOT NULL," \
+        "DestinationCode TEXT," \
         "FOREIGN KEY (destinationCode) REFERENCES Destination (destinationCode));" \
-
-        "CREATE TABLE HolidayRun(" \
-        "holidayrunID TEXT NOT NULL," \
-        "holidayID TEXT," \
-        "destinationCode TEXT," \
-        "startDate TEXT NOT NULL," \
-        "endDate TEXT NOT NULL," \
-        "holidayPrice REAL," \
-        "spacePerHRun INT," \
-        "PRIMARY KEY (holidayrunID)," \
-        "FOREIGN KEY (destinationCode) REFERENCES Destination (destinationCode)," \
-        "FOREIGN KEY (holidayID) REFERENCES HolidayPackage (holidayID));" \
-
 
         "CREATE TABLE Client(" \
         "NRIC TEXT PRIMARY KEY," \
-        "email TEXT NOT NULL," \
-        "password TEXT NOT NULL," \
-        "clientFirstName TEXT," \
-        "clientLastName TEXT," \
-        "streetName TEXT," \
-        "town TEXT," \
-        "city TEXT," \
-        "postalCode TEXT);" \
+        "Email TEXT NOT NULL," \
+        "Password TEXT NOT NULL," \
+        "ClientFirstName TEXT," \
+        "ClientLastName TEXT," \
+        "StreetName TEXT," \
+        "Town TEXT," \
+        "City TEXT," \
+        "PostalCode TEXT);" \
 
+        "CREATE TABLE HolidayRun(" \
+        "HolidayRunID TEXT NOT NULL," \
+        "HolidayID TEXT," \
+        "DestinationCode TEXT," \
+        "StartDate TEXT NOT NULL," \
+        "EndDate TEXT NOT NULL," \
+        "HolidayPrice REAL," \
+        "SpacePerHRun INT," \
+        "PRIMARY KEY (holidayrunID)," \
+        "FOREIGN KEY (destinationCode) REFERENCES Destination (destinationCode)," \
+        "FOREIGN KEY (holidayID) REFERENCES HolidayPackage (holidayID));" \
+        
         "CREATE TABLE Booking(" \
-        "bookingReferenceNo TEXT PRIMARY KEY," \
-        "bookingDate TEXT NOT NULL," \
-        "bookingStatus TEXT NOT NULL," \
-        "deposit REAL," \
-        "specialRequirement TEXT," \
-        "holidayrunID TEXT NOT NULL," \
+        "BookingRefNo TEXT PRIMARY KEY," \
+        "BookingDate TEXT NOT NULL," \
+        "BookingStatus TEXT NOT NULL," \
+        "Deposit REAL," \
+        "SpecialRequirement TEXT," \
+        "HolidayrunID TEXT NOT NULL," \
         "NRIC TEXT NOT NULL," \
         "FOREIGN KEY (holidayrunID) REFERENCES HolidayRun (holidayrunID)," \
-        "FOREIGN KEY (NRIC) REFERENCES Booking (NRIC));" \
-
-        "CREATE TABLE Passenger(" \
-        "passengerNRIC TEXT PRIMARY KEY," \
-        "passengerFirstName TEXT," \
-        "passengerLastName TEXT," \
-        "bookingReferenceNo TEXT," \
-        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));" ;
-
-//        "CREATE TABLE TRANS(" \
-//        "bookingReferenceNo TEXT," \
-//        "transactionDate TEXT," \
-//        "totalAmount REAL," \
-//        "PRIMARY KEY (bookingReferenceNo, transactionDate),"
-//        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));" ;
-           
-         //  "drop table Trans";
-                
-
-//        "CREATE TABLE Payment(" \
-//        "bookingReferenceNo TEXT," \
-//        "transactionDate TEXT," \
-//        "totalAmount REAL," \
-//        "PRIMARY KEY (bookingReferenceNo, transactionDate),"\
-//        "FOREIGN KEY (bookingReferenceNo) REFERENCES Booking (bookingReferenceNo));";
-//           
+        "FOREIGN KEY (NRIC) REFERENCES Booking (NRIC));";
+   
    
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, 0, &zErrMsg);
@@ -148,23 +123,14 @@ void insertRecord()
         "INSERT INTO HolidayRun VALUES ('R003', 'H003', 'D003', '01/04/2014', '28/03/2014', 20000, 60);" \
         "INSERT INTO HolidayRun VALUES ('R004', 'H002', 'D001', '16/02/2014', '01/03/2014', 7000, 40);" \
 
-
-        "INSERT INTO Client VALUES ('G12345678K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi St', 'Clementi', 'Singapore', 'S120111');" \
-        "INSERT INTO Client VALUES ('S12345678D', 'kristy@gmail.com', 'kristy123', 'Kristy', 'Win', 'Punggol St', 'Punggol', 'Singapore', 'S234567');" \
+        "INSERT INTO Client VALUES ('G1111111K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi Ave St', 'Clementi', 'Singapore', 'SG111111');";
         "INSERT INTO Client VALUES ('S12345678S', 'kaung@gmail.com', 'kaung', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
 
-
-        "INSERT INTO Booking VALUES('RF00000012', '09/02/2014', 'Waiting', 200, '-', 'R001', 'G12345678K');" \
-        "INSERT INTO Booking VALUES('RF00000009', '07/02/2014', 'Confirmed', 500, '-', 'R002', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('RF00000008', '07/02/2014', 'Checked', 500, '-', 'R002', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('RF00000006', '07/02/2014', 'Pending', 500, '-', 'R004', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('RF00000020', '07/02/2014', 'Payment', 900, '-', 'R003', 'S12345678D');" \
-
-
-        "INSERT INTO Passenger VALUES ('A12345678K', 'Jasmine', 'Tan', 'RF00000009');" \
-        "INSERT INTO Passenger VALUES ('S12345678D', 'Kristy', 'Win', 'RF00000009');"; \
-
-    //    "INSERT INTO TRANSACTION VALUES ('RF00000009', '07/02/2014', 7000);";\
+        "INSERT INTO Booking VALUES('B00001', '09/02/2014', 'Waiting', 200, '-', 'R001', 'G12345678K');" \
+        "INSERT INTO Booking VALUES('B00002', '07/02/2014', 'Confirmed', 500, '-', 'R002', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('B00003', '07/02/2014', 'Checked', 500, '-', 'R002', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('B00004', '07/02/2014', 'Complete', 500, '-', 'R004', 'S12345678D');" \
+        "INSERT INTO Booking VALUES('B00005', '07/02/2014', 'Complete', 900, '-', 'R003', 'S12345678D');";
 
 
    /* Execute SQL statement */
@@ -250,5 +216,3 @@ void editRecord()
    }
    sqlite3_close(db);
 }
-
-
