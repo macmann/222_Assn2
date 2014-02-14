@@ -42,12 +42,17 @@ bool GeneralManager::createHolidayPackage()
     cout << "space per run: " ;
     cin >> spr;
     
+    string tempRecordID = HolidayPackageSystem::autoID("HolidayRun");
+    
     char * sqladdHolidayPkg;
-    sqladdHolidayPkg = sqlite3_mprintf("INSERT INTO HolidayRun VALUES ('R999','%q' , '%q', '%q', '%q', '%f', '%i')"  
-            , HRCode.c_str(), destCdoe.c_str(), sD.c_str(), eD.c_str(), price, spr); 
+    sqladdHolidayPkg = sqlite3_mprintf("INSERT INTO HolidayRun VALUES ('%q','%q' , '%q', '%q', '%q', '%f', '%i')"  
+          , tempRecordID.c_str(), HRCode.c_str(), destCdoe.c_str(), sD.c_str(), eD.c_str(), price, spr); 
    
     HolidayPackageSystem::executeRecord(sqladdHolidayPkg);
-    HolidayPackageSystem::displayRecord("SElECT * FROM HolidayRun WHERE holidayrunID='R999';");
+    
+    char * sqladdHolidayPkg2;
+    sqladdHolidayPkg2 = sqlite3_mprintf("SElECT * FROM HolidayRun WHERE holidayrunID='%q';", tempRecordID.c_str());
+    HolidayPackageSystem::displayRecord(sqladdHolidayPkg2);
 }
 
 bool GeneralManager::updateHolidayPackage()
@@ -58,7 +63,7 @@ bool GeneralManager::updateHolidayPackage()
 bool GeneralManager::deleteHolidayPackage()
 {
     string HRID;
-    cout << "Enter the name of HolidayRun ID  to delete: " ;
+    cout << "Enter HolidayRun ID  to delete Holiday Package: " ;
     cin >> HRID;
        
     char * sqldelHR;
