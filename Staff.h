@@ -32,7 +32,7 @@ public:
     void viewBooking();
     static void readRecord(const char* sql);
     static int Authenticate (void *NotUsed, int argc, char **argv, char **azColName);
- 
+  
 
 };
 

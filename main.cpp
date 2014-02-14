@@ -12,6 +12,7 @@
 #include "GeneralManager.h"
 #include "BookingStaff.h"
 #include "FinanaceManager.h"
+#include "Client.h"
 
 
 int main(int argc, char* argv[])
@@ -34,7 +35,7 @@ int main(int argc, char* argv[])
         switch (selector)
         {
             case 1: 
-                    menuValue = Staff::login(1);
+                    menuValue = Staff::login();
                     if(menuValue == 1)
                         GeneralManager::GMmenu();
                     else if(menuValue == 2)
@@ -47,10 +48,9 @@ int main(int argc, char* argv[])
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 2: 
-                    menuValue = Staff::login(2);
+                    menuValue = Client::login();
                      if(menuValue == 5)
-                         cout << "Client Menu to wait for Vera Commit" << endl;
-                        //GeneralManager::GMmenu();
+                         Client::cMenu();
                      else if(menuValue == -1)
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;

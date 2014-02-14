@@ -57,7 +57,75 @@ bool GeneralManager::createHolidayPackage()
 
 bool GeneralManager::updateHolidayPackage()
 {
+     char selectEdit;
+     string HRIDedit;
+     string HRCodeEdit, sDedit, eDEdit;
+     float priceEdit;
+     int sprEdit;
+     bool breakLoop = false;
+     char * sqlEditHC, * sqlEditSD, * sqlEditEC, * sqlEditHCprice, * sqlEditHCspr;
+     
+     HolidayPackageSystem::displayRecord("SELECT * FROM HolidayRun");
+     
+    cout << "\nEnter HolidayRun ID to Edit Holiday Package: " ;
+    cin >> HRIDedit;
     
+    while(1)
+    {
+        cout << "\n\nSelect which Field would u like to edit" << endl; 
+        cout << "a) Holiday Package (Great/Small/Big Advanture" << endl; 
+        cout << "b) Holiday Run Start date" << endl; 
+        cout << "c) Holiday Run End date" << endl; 
+        cout << "d) Holiday Run Price" << endl; 
+        cout << "e) Holiday Run space per run" << endl; 
+        cout << "X) Exit" << endl; 
+               
+        cout << "Enter your option: ";
+        cin >> selectEdit;
+
+
+        switch (selectEdit)
+        {
+             case 'a':
+                     cout <<"Enter Holiday Run Code : ";
+                     cin >> HRCodeEdit;
+                     sqlEditHC = sqlite3_mprintf("UPDATE HolidayRun set holidayID = '%q' where holidayrunID='%q';", HRCodeEdit.c_str() ,HRIDedit.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditHC); 
+                 break;
+             case 'b':
+                     cout <<"Enter Holiday Run start Date : ";
+                     cin >> sDedit;
+                     sqlEditSD = sqlite3_mprintf("UPDATE HolidayRun set startDate = '%q' where holidayrunID='%q';", sDedit.c_str() ,HRIDedit.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditSD); 
+                 break;
+             case 'c':
+                     cout <<"Enter Holiday Run End Date : ";
+                     cin >> eDEdit;
+                     sqlEditEC = sqlite3_mprintf("UPDATE HolidayRun set endDate = '%q' where holidayrunID='%q';", eDEdit.c_str() ,HRIDedit.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditEC); 
+                 break;
+             case 'd':
+                     cout <<"Enter Holiday Run Price : ";
+                     cin >> priceEdit;
+                     sqlEditHCprice = sqlite3_mprintf("UPDATE HolidayRun set holidayPrice = '%q' where holidayrunID=%f;", priceEdit,HRIDedit.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditHCprice); 
+                 break;
+             case 'e':                            
+                     cout <<"Enter Holiday Space Per Run : ";
+                     cin >> sprEdit;
+                     sqlEditHCspr = sqlite3_mprintf("UPDATE HolidayRun set spacePerHRun = '%q' where holidayrunID=%i;", sprEdit ,HRIDedit.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditHCspr); 
+                 break;
+            case 'x' :
+                breakLoop = true;
+                 break;
+        }
+        
+        if(breakLoop == true)
+            break;
+        
+        cout <<"Record updated successfully" << endl; 
+    } 
 }
 
 bool GeneralManager::deleteHolidayPackage()
@@ -108,17 +176,77 @@ bool GeneralManager::createStaff()
 
 bool GeneralManager::editStaff()
 {
+    HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
+    
     string staffID;
-    cout << "Enter the name of staff to Edit: " ;
+    cout << "Enter the StaffID staff to Edit: " ;
     cin >> staffID;
     
-    //db comment to Edit staff from DB one entry by entry
+     char selectEdit;
+     
+     string editPassword;
+     string editFirstName, editLastNam;
+     int editLevel;
+     bool breakLoop = false;
+     char * sqlEditPwd, * sqlEditFN, * sqlEditLN, * sqlEditSL;
+         
+    while(1)
+    {
+        cout << "\n\nSelect which Field would u like to edit" << endl; 
+        cout << "a) Password" << endl; 
+        cout << "b) First name" << endl; 
+        cout << "c) Last name" << endl; 
+        cout << "d) Staff Level (1. GM, 2. HM, 3. BS, 4. FM)" << endl; 
+        cout << "X) Exit" << endl; 
+               
+        cout << "Enter your option: ";
+        cin >> selectEdit;
+
+
+        switch (selectEdit)
+        {
+             case 'a':
+                     cout <<"Enter New Password : ";
+                     cin >> editPassword;
+                     sqlEditPwd = sqlite3_mprintf("UPDATE Staff set staffPassword = '%q' where staffID='%q';", editPassword.c_str() ,staffID.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditPwd); 
+                 break;
+             case 'b':
+                     cout <<"Enter New First name : ";
+                     cin >> editFirstName;
+                     sqlEditFN = sqlite3_mprintf("UPDATE Staff set staffFirstName = '%q' where staffID='%q';", editFirstName.c_str() ,staffID.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditFN); 
+                 break;
+             case 'c':
+                     cout <<"Enter New Last name : ";
+                     cin >> editLastNam;
+                     sqlEditLN = sqlite3_mprintf("UPDATE Staff set staffLastName = '%q' where staffID='%q';", editLastNam.c_str() ,staffID.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditLN); 
+                 break;
+             case 'd':
+                     cout <<"Enter New staff Level : ";
+                     cin >> editLevel;
+                     sqlEditSL = sqlite3_mprintf("UPDATE Staff set staffLevel = '%q' where staffID=%i;", editLevel ,staffID.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditSL); 
+                 break;
+            case 'x' :
+                breakLoop = true;
+                 break;
+        }
+        
+        if(breakLoop == true)
+            break;
+        
+        cout <<"Record updated successfully" << endl; 
+    } 
 }
 
 bool GeneralManager::deleteStaff()
 {
+    HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
+    
     string staffID;
-    cout << "Enter the name of staff to delete: " ;
+    cout << "Enter the StaffID of staff to delete: " ;
     cin >> staffID;
        
     char * sqldelstaff;
@@ -151,6 +279,7 @@ void GeneralManager::GMmenu()
            GMmenu();
             break;
         case 'b':
+            updateHolidayPackage();
             GMmenu();
             break;
         case 'c':
@@ -162,6 +291,7 @@ void GeneralManager::GMmenu()
             GMmenu();
             break;
         case 'e':
+            editStaff();
             GMmenu();
             break;
         case 'f':
