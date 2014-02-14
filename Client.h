@@ -23,21 +23,11 @@ private:
     string postalCode;
     
 public:
-    string getNRIC();
-    void setNRIC(string);
-    string getEmail();
-    void setEmail(string);
-    string getPassword();
-    void setPassword(string);
-    string getClientFirstName();
-    void setClientFirstName(string);
-    string getClientLastName();
-    void setClientLastName(string);
-    string getAddress();
-    void setAddress(string sName, string town, string city, string code);
+    
     int login();
-    void submitBooking();
-    void editBooking();
+    void cMenu();
+    bool submitBooking();
+    bool editBooking();
     bool cancelBooking();
 };
 
