@@ -24,11 +24,14 @@ private:
     
 public:
     
-    int login();
-    void cMenu();
-    bool submitBooking();
-    bool editBooking();
-    bool cancelBooking();
+    static int login();
+    static void cMenu();
+    static bool submitBooking();
+    static bool editBooking();
+    static bool cancelBooking();
+       // for client
+    static void clientreadRecord(const char* sql);
+    static int clientAuthenticate (void *NotUsed, int argc, char **argv, char **azColName);
 };
 
 
