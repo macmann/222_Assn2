@@ -47,6 +47,12 @@ int main(int argc, char* argv[])
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 2: 
+                    menuValue = Staff::login(2);
+                     if(menuValue == 5)
+                         cout << "Client Menu to wait for Vera Commit" << endl;
+                        //GeneralManager::GMmenu();
+                     else if(menuValue == -1)
+                        cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 3: createTable();
                     insertRecord();    

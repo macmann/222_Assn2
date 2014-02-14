@@ -12,9 +12,8 @@
 
 class FinanceManager: public Staff {
     public:
-        //still don't know need or not
-        static int processPayment();
         static bool processBooking();
+        static bool viewCancelledBooking();
         //check full amount the client need to pay
         //deposit included
         static float checkTotalAmount();

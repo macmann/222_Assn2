@@ -22,6 +22,7 @@ private:
     int staffLevel;
     
 public:
+       
     string getStaffID();
     string getStaffPassword();
     void changePassword(string pw);
@@ -31,6 +32,9 @@ public:
     void viewBooking();
     static void readRecord(const char* sql);
     static int Authenticate (void *NotUsed, int argc, char **argv, char **azColName);
+    // for client
+    static void clientreadRecord(const char* sql);
+    static int clientAuthenticate (void *NotUsed, int argc, char **argv, char **azColName);
 
 };
 
