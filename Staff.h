@@ -24,7 +24,7 @@ private:
 public:
        
     //will return staff level
-    static int login();
+    static int login(string, string);
     //will view according to booking status (waiting, confirmed, etc.)
     static void readRecord(const char* sql);
     static int Authenticate (void *NotUsed, int argc, char **argv, char **azColName);

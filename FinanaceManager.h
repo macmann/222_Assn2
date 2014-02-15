@@ -21,7 +21,7 @@ class FinanceManager: public Staff {
         bool viewPaymentRequiredBooking(string);
         void processBooking();
         bool confirmBooking(string);
-        float calculatePenalty(string);
+        static float calculatePenalty(string);
         static int retrieveData(void *arg, int argc, char **argv, char **azColName);
 };
 

@@ -24,7 +24,7 @@ private:
     
 public:
     
-    int login();
+    int login(string, string);
     void cMenu();
     void submitBooking();
     bool submitBooking (string, float, string);
