@@ -172,17 +172,9 @@ bool Client::cancelBooking(string bookingRefNo) {
     HolidayPackageSystem::displayRecord(sql);
 }
 
-
-int Client::login() {
-     string clientNRIC, clientPwd;
-    int authenticateValue = -1;
-
-    cout << "Enter NRIC : " ;
-    cin >> clientNRIC;
+int Client::login(string clientNRIC, string clientPwd) {
     
-    cout << "Enter password: ";
-    cin >> clientPwd;
-    
+        int authenticateValue = -1;
         char * sqlAuthClient;
             sqlAuthClient = sqlite3_mprintf("SELECT * FROM Client WHERE NRIC='%q'", clientNRIC.c_str()); 
             clientReadRecord(sqlAuthClient);
