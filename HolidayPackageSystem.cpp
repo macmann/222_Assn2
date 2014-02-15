@@ -114,7 +114,7 @@ string HolidayPackageSystem::autoID (string tableName){
 //execute SQL statements (eg. INSERT, UPDATE, DELETE)
 //reduce repetitive codes to execute SQL statements
 //pass the SQL statement to execute it
-void HolidayPackageSystem::executeRecord (const char* sql) {
+int HolidayPackageSystem::executeRecord (const char* sql) {
    sqlite3 *db;
    char *zErrMsg = 0;
    int rc;
