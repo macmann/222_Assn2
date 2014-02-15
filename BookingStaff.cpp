@@ -31,11 +31,11 @@ bool BookingStaff::processBooking()
     else
         tempstatus = "Invalid";
     
-    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where bookingReferenceNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
+    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where BookingRefNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
     HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     
     char * sqlViewUpdateBookingsStatus;
-    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where bookingReferenceNO='%q';", tempBkRef.c_str());
+    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where BookingRefNo='%q';", tempBkRef.c_str());
     HolidayPackageSystem::displayRecord(sqlViewUpdateBookingsStatus);
 }
 
@@ -63,15 +63,18 @@ bool BookingStaff::createClientAccount()
     
     cout << "Enter your NRIC : ";
     cin >> nric;
-    
+
     cout << "Enter street name: ";
-    cin >> streetName;
+    cin.ignore();
+    getline(cin, streetName);
     
     cout << "Town: " << endl;
-    cin >> town;
+    cin.ignore();
+    getline(cin, town);
     
     cout << "City: " << endl;
-    cin >> city;
+    cin.ignore();
+    getline(cin, city);
     
     cout << "postalCode : " ;
     cin >> postalCode;
@@ -93,6 +96,84 @@ bool BookingStaff::createClientAccount()
                   streetName.c_str(), town.c_str(), city.c_str(), postalCode.c_str()); 
 
     HolidayPackageSystem::executeRecord(sqlAddclient);
+    
+    cout << "Created Client Account Successfully" << endl;
+}
+
+bool BookingStaff::editClientAccount()
+{
+    HolidayPackageSystem::displayRecord("SELECT * FROM Client");
+    
+    string cNRIC;
+    cout << "Enter the Client NRIC to Edit: " ;
+    cin >> cNRIC;
+    
+     char selectEdit;
+     
+     string editPassword;
+     string editFirstName, editLastNam, editEmail;
+     bool breakLoop = false;
+     char * sqlEditPwd, * sqlEditFN, * sqlEditLN, * sqlEditEmail;
+         
+    while(1)
+    {
+        cout << "\n\nSelect which Field would u like to edit" << endl; 
+        cout << "a) Password" << endl; 
+        cout << "b) First name" << endl; 
+        cout << "c) Last name" << endl; 
+        cout << "d) Email" << endl; 
+        cout << "X) Exit" << endl; 
+               
+        cout << "Enter your option: ";
+        cin >> selectEdit;
+/*
+        "CREATE TABLE Client(" \
+        "NRIC TEXT PRIMARY KEY," \
+        "Email TEXT NOT NULL," \
+        "Password TEXT NOT NULL," \
+        "ClientFirstName TEXT," \
+        "ClientLastName TEXT," \
+        "StreetName TEXT," \
+        "Town TEXT," \
+        "City TEXT," \
+        "PostalCode TEXT);" \*/
+
+        switch (selectEdit)
+        {
+             case 'a':
+                     cout <<"Enter New Password : ";
+                     cin >> editPassword;
+                     sqlEditPwd = sqlite3_mprintf("UPDATE Client set Password = '%q' where NRIC='%q';", editPassword.c_str() ,cNRIC.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditPwd); 
+                 break;
+             case 'b':
+                     cout <<"Enter New First name : ";
+                     cin >> editFirstName;
+                     sqlEditFN = sqlite3_mprintf("UPDATE Client set ClientFirstName = '%q' where NRIC='%q';", editFirstName.c_str() ,cNRIC.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditFN); 
+                 break;
+             case 'c':
+                     cout <<"Enter New Last name : ";
+                     cin >> editLastNam;
+                     sqlEditLN = sqlite3_mprintf("UPDATE Client set ClientLastName = '%q' where NRIC='%q';", editLastNam.c_str() ,cNRIC.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditLN); 
+                 break;
+             case 'd':
+                     cout <<"Enter New Email : ";
+                     cin >> editEmail;
+                     sqlEditEmail = sqlite3_mprintf("UPDATE Client set Email = '%q' where NRIC=%q;", editEmail.c_str() , cNRIC.c_str());
+                     HolidayPackageSystem::executeRecord(sqlEditEmail); 
+                 break;
+            case 'x' :
+                breakLoop = true;
+                 break;
+        }
+        
+        if(breakLoop == true)
+            break;
+        
+        cout <<"Record updated successfully" << endl; 
+    }
 }
 
 void BookingStaff::BSMenu()
@@ -120,6 +201,7 @@ void BookingStaff::BSMenu()
             BSMenu();
             break;
         case 'c':
+            editClientAccount();
             BSMenu();
             break;
         case 'x' : 

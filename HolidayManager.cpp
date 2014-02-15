@@ -10,6 +10,8 @@ bool HolidayManager::deleteClientAccount()
     sqldelclient = sqlite3_mprintf("DELETE FROM Client WHERE NRIC='%q'" , tempNRIC.c_str()); 
     
     HolidayPackageSystem::executeRecord(sqldelclient);
+    
+    cout << "Client account is deleted successfully!" << endl;
 };
 
 bool HolidayManager::checkSpace()
@@ -19,7 +21,7 @@ bool HolidayManager::checkSpace()
     cin >> HrID;
     
     char * sqlViewClientonPackage;
-    sqlViewClientonPackage = sqlite3_mprintf("SELECT * FROM Booking where holidayrunID='%q' AND bookingStatus='Complete';", HrID.c_str());
+    sqlViewClientonPackage = sqlite3_mprintf("SELECT * FROM Booking where HolidayrunID='%q';", HrID.c_str());
     HolidayPackageSystem::displayRecord(sqlViewClientonPackage);
 
 }
@@ -29,7 +31,7 @@ bool HolidayManager::processBooking()
     string tempBkRef, tempstatus;
     int selector;
     char * sqlviewBookings;
-    sqlviewBookings = sqlite3_mprintf("SELECT * FROM Booking WHERE bookingStatus='Checked' ;");
+    sqlviewBookings = sqlite3_mprintf("SELECT * FROM Booking WHERE BookingStatus='Checked' ;");
     HolidayPackageSystem::displayRecord(sqlviewBookings);
     
     cout << "Enter the booking reference no to process: " ;
@@ -48,12 +50,14 @@ bool HolidayManager::processBooking()
     else
         tempstatus = "Waiting";
     
-    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where bookingReferenceNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
+    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where BookingRefNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
     HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     
     char * sqlViewUpdateBookingsStatus;
-    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where bookingReferenceNO='%q';", tempBkRef.c_str());
+    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where BookingRefNo='%q';", tempBkRef.c_str());
     HolidayPackageSystem::displayRecord(sqlViewUpdateBookingsStatus);
+    
+    cout << "\nBooking status updated!" << endl;
 }
 
 void HolidayManager::HMmenu()
@@ -84,6 +88,9 @@ void HolidayManager::HMmenu()
             checkSpace();
             HMmenu();
             break;
+        case 'd' :
+             HolidayPackageSystem::displayRecord("SELECT * FROM Booking;");
+             break;
         case 'x':
             break;
                         

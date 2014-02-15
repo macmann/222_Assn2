@@ -26,7 +26,7 @@ public:
     static int countRow (void *NotUsed, int argc, char **argv, char **azColName);
     static int display (void *NotUsed, int argc, char **argv, char **azColName);
     static string autoID (string tableName);
-    static void executeRecord (const char* sql);
+    static int executeRecord (const char* sql);
     static void displayRecord (const char* sql);
 };
 

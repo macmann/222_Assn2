@@ -59,7 +59,8 @@ int main(int argc, char* argv[])
                     break;
             case 4: readTable();
                     break;
-            case 5: h.autoID ("Staff");
+            default:
+                break;
         }
      }
 

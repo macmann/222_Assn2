@@ -1,4 +1,4 @@
-/* 
+* 
  * File:   Transaction.h
  * Author: vera
  *

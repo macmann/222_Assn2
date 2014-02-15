@@ -53,6 +53,8 @@ bool GeneralManager::createHolidayPackage()
     char * sqladdHolidayPkg2;
     sqladdHolidayPkg2 = sqlite3_mprintf("SElECT * FROM HolidayRun WHERE holidayrunID='%q';", tempRecordID.c_str());
     HolidayPackageSystem::displayRecord(sqladdHolidayPkg2);
+
+        cout << "\n\nHoliday Run Package is added successfully" << endl;
 }
 
 bool GeneralManager::updateHolidayPackage()
@@ -138,6 +140,8 @@ bool GeneralManager::deleteHolidayPackage()
     sqldelHR = sqlite3_mprintf("DELETE FROM HolidayRun WHERE holidayrunID='%q'" , HRID.c_str()); 
     
     HolidayPackageSystem::executeRecord(sqldelHR);
+    
+    cout << "\n\nHoliday Run Package is deleted successfully" << endl;
 }
 
 bool GeneralManager::createStaff()
@@ -165,6 +169,7 @@ bool GeneralManager::createStaff()
     cout << "Enter your choice: " ; 
     cin >> staffLevel;
     
+    cout << "The staff ID issued to the new emplyee is : ";
     string newID = HolidayPackageSystem::autoID("Staff");
         char * sqlAddstaff;
 
@@ -172,6 +177,8 @@ bool GeneralManager::createStaff()
                   newID.c_str(), firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
 
     HolidayPackageSystem::executeRecord(sqlAddstaff);
+    
+    cout << "\n\nStaff Account is added successfully" << endl;
 }
 
 bool GeneralManager::editStaff()
@@ -244,6 +251,7 @@ bool GeneralManager::editStaff()
 bool GeneralManager::deleteStaff()
 {
     HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
+    int returnVal;
     
     string staffID;
     cout << "Enter the StaffID of staff to delete: " ;
@@ -252,7 +260,12 @@ bool GeneralManager::deleteStaff()
     char * sqldelstaff;
     sqldelstaff = sqlite3_mprintf("DELETE FROM Staff WHERE staffID='%q'" , staffID.c_str()); 
     
-    HolidayPackageSystem::executeRecord(sqldelstaff);
+    returnVal = HolidayPackageSystem::executeRecord(sqldelstaff);
+    
+    if(returnVal !=-1)
+        cout << "\n\nStaff Account is deleted successfully" << endl;
+    else
+        cout << "Unexpected error occur, please contact the system admin!" << endl;
 }
 
 void GeneralManager::GMmenu()
@@ -268,6 +281,7 @@ void GeneralManager::GMmenu()
     cout << "d) Create Staff Accounts" << endl;
     cout << "e) Edit Staff Accounts" << endl;
     cout << "f) Delete Staff Accounts" << endl;
+    cout << "g) View Statistics" << endl;
     cout << "x) Log Out" << endl;
     cout << "Enter your option : ";   
     cin >> gmselect;
@@ -298,10 +312,41 @@ void GeneralManager::GMmenu()
             deleteStaff(); 
             GMmenu();
             break;
+        case 'g':
+            viewStatistic(); 
+            GMmenu();
+            break;
         case 'x':          
             break;
         default:
             break;
                         
+    }
+}
+
+bool GeneralManager::viewStatistic()
+{
+    cout << "a) View Payment Complete Bookings" << endl;
+    cout << "b) View Pending Payment Bookings" << endl;      
+    cout << "c) View Waiting List Bookings" << endl;
+    cout << "Enter your option: " ;
+    
+    char selectorVS;
+    
+    cin >> selectorVS;
+    
+    switch(selectorVS)
+    {
+        case 'a' :
+            HolidayPackageSystem::displayRecord("SELECT * FROM BOOKING where BookingStatus='Complete'");
+            break;
+        case 'b' :
+            HolidayPackageSystem::displayRecord("SELECT * FROM BOOKING where BookingStatus='Payment'");
+            break;
+        case 'c' :
+            HolidayPackageSystem::displayRecord("SELECT * FROM BOOKING where BookingStatus='Waiting'");
+            break;
+        default:
+            break;
     }
 }

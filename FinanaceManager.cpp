@@ -39,12 +39,16 @@ bool FinanceManager::processBooking()
     else
         tempstatus = "Cancel";
     
-    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where bookingReferenceNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
+    cout << endl;
+    
+    sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where BookingRefNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
     HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     
     char * sqlViewUpdateBookingsStatus;
-    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where bookingReferenceNO='%q';", tempBkRef.c_str());
+    sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where BookingRefNo='%q';", tempBkRef.c_str());
     HolidayPackageSystem::displayRecord(sqlViewUpdateBookingsStatus);
+    
+    cout << "\nBooking status updated!" << endl;
 }
 
 void FinanceManager::FMMenu()
