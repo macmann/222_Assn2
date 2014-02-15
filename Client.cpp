@@ -34,8 +34,9 @@ bool Client::submitBooking() {
     float deposit;
     
     string sqlCommand = "SELECT holidayRunID, holidayType, destinationName, startDate, endDate,  holidayPrice "\
-"FROM HolidayPackage INNER JOIN HolidayRun ON HolidayPackage.holidayID = HolidayRun.holidayID "\
-"INNER JOIN Destination ON HolidayPackage.destinationCode = Destination.destinationCode;";
+    "FROM HolidayPackage INNER JOIN HolidayRun ON HolidayPackage.holidayID = HolidayRun.holidayID "\
+    "INNER JOIN Destination ON HolidayPackage.destinationCode = Destination.destinationCode;";
+    
     const char *sql = sqlCommand.c_str();
     HolidayPackageSystem::displayRecord(sql);
     
@@ -71,44 +72,44 @@ bool Client::submitBooking() {
 bool Client::editBooking() {
     int option; 
     float deposit;
-    string bookingRefNo, editedValue, sqlCommand1, sqlCommand2;
+    string bookingRefNo, editedValue;
     char *sqlUpdate;
-    //string sqlCommand = "SELECT * FROM Booking WHERE NRIC = " + NRIC;
     
-    char * sqlCommandEdit = sqlite3_mprintf("SELECT * FROM Booking WHERE NRIC = '%q';", dbUsernameClient.c_str());
-    HolidayPackageSystem::displayRecord(sqlCommandEdit);
+    char * sql = sqlite3_mprintf("SELECT * FROM Booking WHERE NRIC = '%q' AND BookingStatus <> 'Confirmed';", dbUsernameClient.c_str());
+    HolidayPackageSystem::displayRecord(sql);
     
-    cout << "Select by Booking Reference No: ";
+    cout << "Select Booking Reference No: ";
     cin >> bookingRefNo;
     
     cout << "(1) Deposit\n(2) Special Requirement\n(3) Holiday Package\n";
     cout << "Select element to be edited : ";
     cin >> option;
     
+    cout << "Enter new value: ";
+    cin.ignore();
+    getline(cin, editedValue);
+    
     if (option == 1 || option == 2) {
-        cout << "Enter new value: ";
-        cin.ignore();
-        getline(cin, editedValue);
 
         switch(option) {
             case 1: {
                 stringstream ss (editedValue);
                 ss >> deposit;
                 
-                sqlUpdate = sqlite3_mprintf("UPDATE Booking Deposit = '%f' WHERE bookingReferenceNo = '%s';"
+                sqlUpdate = sqlite3_mprintf("UPDATE Booking SET Deposit = '%f' WHERE bookingRefNo = '%s';"
                 , deposit, bookingRefNo.c_str());
                 break;
-                }
+               }
             case 2: {
-                sqlUpdate = sqlite3_mprintf("UPDATE Booking specialRequirement = '%s' WHERE bookingReferenceNo = '%s';"
+                sqlUpdate = sqlite3_mprintf("UPDATE Booking SET specialRequirement = '%s' WHERE bookingRefNo = '%s';"
                 , editedValue.c_str(), bookingRefNo.c_str());
                 break;
-                }
+               }
             }
     }
     else if (option == 3) {
         
-        sqlUpdate = sqlite3_mprintf("UPDATE Booking holidayRunID = '%s' WHERE bookingReferenceNo = '%s';"
+        sqlUpdate = sqlite3_mprintf("UPDATE Booking SET holidayRunID = '%s' WHERE bookingRefNo = '%s';"
         , editedValue.c_str(), bookingRefNo.c_str());
 
     }
@@ -117,28 +118,53 @@ bool Client::editBooking() {
     
 
 bool Client::cancelBooking() {
+    int option; 
+    string bookingRefNo;
+    char *sqlUpdate;
+    
+    char * sql = sqlite3_mprintf("SELECT * FROM Booking WHERE NRIC = '%q';", dbUsernameClient.c_str());
+    HolidayPackageSystem::displayRecord(sql);
+    
+    cout << "Select Booking Reference No to Cancel: ";
+    cin >> bookingRefNo;
+    
+        time_t now;
+    time ( &now );
+    char buffer [20];
+    struct tm * Date = localtime(&now);
+    
+    //  Convert current time to (DDMMYY)  
+    strftime (buffer,20,"%d/%m/%Y",Date);
+    string bookingDate = buffer;
+    cout << " booking date: " << bookingDate << endl;
+  
+    //when the booking is cancelled, the booking date is also updated to the date 
+    //the booking is cancelled so that the Finance Manager will be able to compute
+    //the penalty the client has to pay
+    sqlUpdate = sqlite3_mprintf("UPDATE Booking SET BookingStatus = 'Cancelled', BookingDate = '%s' WHERE BookingRefNo = '%s';"
+    ,bookingDate.c_str(), bookingRefNo.c_str());
+
+    HolidayPackageSystem::executeRecord (sqlUpdate);
 }
 
-int Client::login()
-{
-     string clientNRIC, clienPwd;
+int Client::login() {
+     string clientNRIC, clientPwd;
     int authenticateValue = -1;
 
     cout << "Enter NRIC : " ;
     cin >> clientNRIC;
     
     cout << "Enter password: ";
-    cin >> clienPwd;
+    cin >> clientPwd;
     
         char * sqlAuthClient;
             sqlAuthClient = sqlite3_mprintf("SELECT * FROM Client WHERE NRIC='%q'", clientNRIC.c_str()); 
-            clientreadRecord(sqlAuthClient);
-            if(clienPwd == dbPasswordClient)
+            clientReadRecord(sqlAuthClient);
+            if(clientPwd == dbPasswordClient)
                 authenticateValue = 5;
             
      return authenticateValue;
 }
-
 
 int Client::clientAuthenticate (void *NotUsed, int argc, char **argv, char **azColName){
  
@@ -148,7 +174,7 @@ int Client::clientAuthenticate (void *NotUsed, int argc, char **argv, char **azC
     return 0;
 }
 
-void Client::clientreadRecord(const char* sql) {
+void Client::clientReadRecord(const char* sql) {
    sqlite3 *db;
    char *zErrMsg = 0;
    int rc;

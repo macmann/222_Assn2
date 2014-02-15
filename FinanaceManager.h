@@ -12,17 +12,17 @@
 
 class FinanceManager: public Staff {
     public:
-        static bool processBooking();
+        static void fmMenu();
+        static bool viewConfirmedBooking();
         static bool viewCancelledBooking();
-        //check full amount the client need to pay
-        //deposit included
-        static float checkTotalAmount();
-        //check the blance the client need to pay
-        //deposit excluded
-        static float checkBalance();
-        
-        static void FMMenu();
+        static bool viewPaymentRequiredBooking();
+        static bool viewConfirmedBooking(string); 
+        static bool viewCancelledBooking(string);
+        static bool viewPaymentRequiredBooking(string);
+        static void processBooking();
+        static bool confirmBooking(string);
+        float calculatePenalty(string);
+        static int retrieveData(void *arg, int argc, char **argv, char **azColName);
 };
 
 #endif	/* FINANACEMANAGER_H */
-

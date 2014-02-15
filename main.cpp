@@ -13,10 +13,11 @@
 #include "BookingStaff.h"
 #include "FinanaceManager.h"
 #include "Client.h"
-
+#include "TestMain.h"
 
 int main(int argc, char* argv[])
 {
+    TestMain test;
     int selector; 
     int menuValue;
     HolidayPackageSystem h;
@@ -28,6 +29,7 @@ int main(int argc, char* argv[])
         cout << "1) Login as Staff" << endl;
         cout << "2) Login as Client" << endl;
         cout << "3) Admin Tool: DB Start Initialization" << endl;
+        cout << "4) Admin Tool: CPPUnit Test" << endl;
         cout << "Enter your option: ";
         cin >> selector;
    
@@ -43,7 +45,7 @@ int main(int argc, char* argv[])
                     else if(menuValue == 3)
                         BookingStaff::BSMenu();
                     else if(menuValue == 4)
-                        FinanceManager::FMMenu();
+                        FinanceManager::fmMenu();
                     else if(menuValue == -1)
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
@@ -56,8 +58,9 @@ int main(int argc, char* argv[])
                     break;
             case 3: createTable();
                     insertRecord();    
-                    break;
-            case 4: readTable();
+                    break; 
+            case 4: 
+                    test.testmain();
                     break;
             default:
                 break;

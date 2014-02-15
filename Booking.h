@@ -17,16 +17,7 @@ class Booking {
     string bookingStatus;
     float deposit;
     string specialRequirement;
-    
-public:
-    string getBookingReferenceNo();
-    string getBookingStatus();
-    void setBookingStatus(string);
-    float getDeposit();
-    void setDeposit(float);
-    string getSpecialRequirement();
-    void setSpecialRequirement(string);
+   
 };
 
 #endif	/* BOOKING_H */
-

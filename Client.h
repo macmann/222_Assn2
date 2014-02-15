@@ -30,7 +30,7 @@ public:
     static bool editBooking();
     static bool cancelBooking();
        // for client
-    static void clientreadRecord(const char* sql);
+    static void clientReadRecord(const char* sql);
     static int clientAuthenticate (void *NotUsed, int argc, char **argv, char **azColName);
 };
 
