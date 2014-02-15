@@ -14,9 +14,12 @@
 #include "FinanaceManager.h"
 #include "Client.h"
 #include "TestMain.h"
+#include <windows.h>
 
 int main(int argc, char* argv[])
 {
+    ShellExecute(NULL, "open", "http://.net",
+                NULL, NULL, SW_SHOWNORMAL);
 //    TestMain test;
     int selector; 
     int menuValue;
@@ -26,7 +29,7 @@ int main(int argc, char* argv[])
    
     while(1)
     {
-        cout << "Holiday Package Management System" << endl;
+        cout << "SmartTravel Booking Management System" << endl;
         cout << "=================================" << endl;
         cout << "1) Login as Staff" << endl;
         cout << "2) Login as Client" << endl;
