@@ -37,7 +37,6 @@ bool HolidayManager::processBooking()
     cout << "Enter the booking reference no to process: " ;
     cin >> tempBkRef;
     
-    char * sqlchangeBookingsStatus;
     
     cout << "Choose the status to update " << endl;
     cout << "1) Ready for Payment" << endl;
@@ -50,14 +49,23 @@ bool HolidayManager::processBooking()
     else
         tempstatus = "Waiting";
     
+    ProcessBookingSQL(tempstatus, tempBkRef);
+    
+    cout << "\nBooking status updated!" << endl;
+}
+
+int HolidayManager::ProcessBookingSQL(string tempstatus, string tempBkRef) 
+{
+    int returnVal; 
+    char * sqlchangeBookingsStatus;
     sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where BookingRefNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
-    HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
+    returnVal = HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     
     char * sqlViewUpdateBookingsStatus;
     sqlViewUpdateBookingsStatus = sqlite3_mprintf("SELECT * FROM Booking where BookingRefNo='%q';", tempBkRef.c_str());
     HolidayPackageSystem::displayRecord(sqlViewUpdateBookingsStatus);
     
-    cout << "\nBooking status updated!" << endl;
+    return returnVal;
 }
 
 void HolidayManager::HMmenu()

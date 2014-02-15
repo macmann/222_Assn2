@@ -18,6 +18,7 @@ class HolidayManager: public Staff {
         //if no more space, the client will be in waiting list
         static bool checkSpace();
         static bool processBooking();
+        static int ProcessBookingSQL(string, string);
         static void HMmenu();
 };
 

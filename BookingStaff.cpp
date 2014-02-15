@@ -18,8 +18,6 @@ bool BookingStaff::processBooking()
     cout << "Enter the booking reference no to process: " ;
     cin >> tempBkRef;
     
-    char * sqlchangeBookingsStatus;
-    
     cout << "Choose the status to update " << endl;
     cout << "1) Checked" << endl;
     cout << "2) Invalid/Incomplete" << endl;
@@ -31,6 +29,13 @@ bool BookingStaff::processBooking()
     else
         tempstatus = "Invalid";
     
+    processBookingSQL(tempBkRef, tempstatus);
+    
+}
+
+bool BookingStaff::processBookingSQL(string tempBkRef, string tempstatus)
+{
+    char * sqlchangeBookingsStatus;
     sqlchangeBookingsStatus = sqlite3_mprintf("UPDATE Booking set bookingStatus = '%q' where BookingRefNo='%q';", tempstatus.c_str() ,tempBkRef.c_str());
     HolidayPackageSystem::executeRecord(sqlchangeBookingsStatus); 
     

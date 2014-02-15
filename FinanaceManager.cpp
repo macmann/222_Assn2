@@ -15,7 +15,7 @@ void FinanceManager::fmMenu() {
     string nric;
     
     while (true) {
-        cout << "\n\n** Finance Staff Menu **" << endl;
+        cout << "\n\n** Finance Office Staff Menu **" << endl;
         cout << "a) View Confirmed Payments" << endl;
         cout << "b) View Confirmed Payments of a Client" << endl;
         cout << "c) View Cancelled Bookings" << endl;
@@ -149,6 +149,8 @@ void FinanceManager::processBooking() {
 //update the spacePerHRun if the booking status is confirmed
 bool FinanceManager::confirmBooking(string bookingRefNo) {
     
+    char returnVal;
+    
     char * sql = sqlite3_mprintf("UPDATE Booking SET BookingStatus = 'Confirmed' WHERE BookingRefNo = '%s' AND BookingStatus = 'Payment';", bookingRefNo.c_str());
     HolidayPackageSystem::executeRecord(sql);  
     
@@ -157,11 +159,11 @@ bool FinanceManager::confirmBooking(string bookingRefNo) {
     //when the payment is confirmed
     char * sqlUpdate = sqlite3_mprintf("UPDATE HolidayRun SET spacePerHRun = (spacePerHRun - 1) WHERE HolidayRunID = (SELECT HolidayRunID FROM Booking WHERE BookingRefNo = '%s');"
     ,bookingRefNo.c_str());
-    HolidayPackageSystem::executeRecord(sqlUpdate);  
+    returnVal = HolidayPackageSystem::executeRecord(sqlUpdate);  
     
-    cout << "\nHoliday Run" << endl;
-    HolidayPackageSystem::displayRecord("select * from holidayrun;");
-    return true;
+  //  cout << "\nHoliday Run" << endl;
+ //   HolidayPackageSystem::displayRecord("select * from holidayrun;");
+    return returnVal;
 }
 
 

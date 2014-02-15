@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
                     test.testmain();
                     break;
             case 5: 
-                HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
+                HolidayPackageSystem::displayRecord("SELECT * FROM Booking where BookingStatus='Payment'");
                     break;
             default:
                 break;

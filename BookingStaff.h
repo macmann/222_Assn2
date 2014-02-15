@@ -15,6 +15,7 @@ class BookingStaff: public Staff {
         static bool createClientAccount();
         static bool editClientAccount();
         static bool processBooking();
+        static bool processBookingSQL(string, string);
         static void BSMenu();
 };
 

@@ -2,10 +2,15 @@
 #include "Staff.h"
 #include "Client.h"
 #include "GeneralManager.h"
+#include "FinanaceManager.h"
+#include "HolidayManager.h"
+#include "BookingStaff.h"
+
 using namespace std;
 CPPUNIT_TEST_SUITE_REGISTRATION (TravelTest);
 
 Client c;
+FinanceManager fm;
 
 void TravelTest::testLogin()
 {
@@ -24,7 +29,7 @@ void TravelTest::testLogin()
 void TravelTest::clienttestLogin()
 {
     CPPUNIT_ASSERT_EQUAL(c.login("G1111111K", "vera123"),5);
-    CPPUNIT_ASSERT_EQUAL(c.login("S1234567S", "kaung123"),5);
+    CPPUNIT_ASSERT_EQUAL(c.login("S12345678S", "kaung"),5);
 
     CPPUNIT_ASSERT_EQUAL(c.login(" ", " "),-1);
     CPPUNIT_ASSERT_EQUAL(c.login("xxxx", "xxxx"),-1);
@@ -34,8 +39,6 @@ void TravelTest::clienttestLogin()
     cout << "Test 2)Client Login tested" << endl;
 }
 
-
-
 void TravelTest::GMdeletePackage()
 {
     GeneralManager::deleteHolidayPackageSQL("R007");
@@ -43,7 +46,6 @@ void TravelTest::GMdeletePackage()
     cout << "Test 3)Delete Holiday Run Tested" << endl;
 
 }
-
 
 void TravelTest::GMaddPackage()
 {
@@ -67,6 +69,25 @@ void TravelTest::GMaddStaff()
         cout << "Test 6)Add Staff Tested" << endl;
 }
 
+void TravelTest::FSconfirmBooking()
+{
+        CPPUNIT_ASSERT_EQUAL(fm.confirmBooking("B00011"), true);
+        cout << "Test 7)Finance Staff confirm Booking Tested" << endl;
+
+}
+
+void TravelTest::HMprocessBooking()
+{
+        HolidayManager::ProcessBookingSQL("Payment", "B00005");        CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Booking where bookingStatus='Payment' AND BookingRefNo='B0005'"), 1);
+        cout << "Test 8)Holiday Manager Update Booking Status Tested" << endl;
+}
+
+void TravelTest::BSprocessBooking()
+{
+        BookingStaff::processBookingSQL("Checked", "B00001");
+        CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Booking where bookingStatus='Checked' AND BookingRefNo='B0001'"), 1);
+        cout << "Test 9)Booking Staff Update Booking Status Tested" << endl;
+}
 /*
 // Test the existence of the Product
 void POSTest::testSeachProduct()

@@ -14,6 +14,9 @@ class TravelTest : public CppUnit::TestFixture
     CPPUNIT_TEST (GMaddPackage);
     CPPUNIT_TEST (GMdeleteStaff);
     CPPUNIT_TEST (GMaddStaff);
+    CPPUNIT_TEST (FSconfirmBooking);
+    CPPUNIT_TEST (HMprocessBooking);
+    CPPUNIT_TEST (BSprocessBooking);
     CPPUNIT_TEST_SUITE_END ();
 private:
    //  Stock Stk;
@@ -26,6 +29,8 @@ protected:
         void GMdeletePackage();
         void GMaddStaff();
         void GMdeleteStaff();
-
+        void FSconfirmBooking();
+        void HMprocessBooking();
+        void BSprocessBooking();
 };
 
