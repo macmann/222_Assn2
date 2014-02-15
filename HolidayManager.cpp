@@ -89,7 +89,7 @@ void HolidayManager::HMmenu()
             HMmenu();
             break;
         case 'b':
-            deleteClientAccount;
+            deleteClientAccount();
             HMmenu();
             break;
         case 'c':

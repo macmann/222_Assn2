@@ -134,8 +134,8 @@ void insertRecord()
         "INSERT INTO Booking VALUES('B00006', '02/02/2014', 'Cancelled', 500, 'Nothing Required', 'R004', 'G1111111K');" \
         "INSERT INTO Booking VALUES('B00007', '09/02/2014', 'Checked', 700, 'Tour guide for trip', 'R002', 'S12345678S');" \
         "INSERT INTO Booking VALUES('B00008', '12/02/2014', 'Confirmed', 500, 'Blanket and Coffee', 'R004', 'G1111111K');" \
-        "INSERT INTO Booking VALUES('B00009', '13/02/2014', 'Confirmed', 900, 'Nothing Required', 'R003', 'G1111111K');"\
-        "INSERT INTO Booking VALUES('B00010', '13/02/2014', 'Payment', 500, 'Assistance for elderly', 'R004', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00009', '13/02/2014', 'Pending', 900, 'Nothing Required', 'R003', 'G1111111K');"\
+        "INSERT INTO Booking VALUES('B00010', '13/02/2014', 'Pending', 500, 'Assistance for elderly', 'R004', 'S12345678S');" \
         "INSERT INTO Booking VALUES('B00011', '14/02/2014', 'Payment', 900, 'Blanket and Coffee', 'R003', 'G1111111K');";
        
         
