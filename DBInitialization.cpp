@@ -123,8 +123,9 @@ void insertRecord()
         "INSERT INTO HolidayRun VALUES ('R003', 'H003', 'D003', '01/04/2014', '28/03/2014', 20000, 60);" \
         "INSERT INTO HolidayRun VALUES ('R004', 'H002', 'D001', '16/02/2014', '01/03/2014', 7000, 40);" \
 
-        "INSERT INTO Client VALUES ('G1111111K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi Ave St', 'Clementi', 'Singapore', 'SG111111');";
-        "INSERT INTO Client VALUES ('S12345678S', 'kaung@gmail.com', 'kaung', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
+        "INSERT INTO Client VALUES ('G1111111K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi Ave St', 'Clementi', 'Singapore', 'SG111111');" \
+        "INSERT INTO Client VALUES ('S1234567S', 'kaung@gmail.com', 'kaung123', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
+        "INSERT INTO Client VALUES ('S2222222S', 'kristy@gmail.com', 'kristy123', 'Kristy', 'Pungool', 'Pungool Street', 'Singapore', 'Singapore', 'S520874');" \
 
         "INSERT INTO Booking VALUES('B00001', '09/02/2014', 'Waiting', 200, '-', 'R001', 'G12345678K');" \
         "INSERT INTO Booking VALUES('B00002', '07/02/2014', 'Confirmed', 500, '-', 'R002', 'S12345678D');" \
