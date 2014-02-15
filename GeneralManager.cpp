@@ -42,7 +42,14 @@ bool GeneralManager::createHolidayPackage()
     cout << "space per run: " ;
     cin >> spr;
     
-    string tempRecordID = HolidayPackageSystem::autoID("HolidayRun");
+    createHolidayPackageSQL(destCdoe, HRCode, sD, eD, price, spr);
+
+    cout << "\n\nHoliday Run Package is added successfully" << endl;
+}
+
+int GeneralManager::createHolidayPackageSQL(string destCdoe, string HRCode, string sD, string eD, float price, int spr)
+{
+     string tempRecordID = HolidayPackageSystem::autoID("HolidayRun");
     
     char * sqladdHolidayPkg;
     sqladdHolidayPkg = sqlite3_mprintf("INSERT INTO HolidayRun VALUES ('%q','%q' , '%q', '%q', '%q', '%f', '%i')"  
@@ -53,8 +60,8 @@ bool GeneralManager::createHolidayPackage()
     char * sqladdHolidayPkg2;
     sqladdHolidayPkg2 = sqlite3_mprintf("SElECT * FROM HolidayRun WHERE holidayrunID='%q';", tempRecordID.c_str());
     HolidayPackageSystem::displayRecord(sqladdHolidayPkg2);
-
-        cout << "\n\nHoliday Run Package is added successfully" << endl;
+    
+    return 1;
 }
 
 bool GeneralManager::updateHolidayPackage()
@@ -109,13 +116,13 @@ bool GeneralManager::updateHolidayPackage()
              case 'd':
                      cout <<"Enter Holiday Run Price : ";
                      cin >> priceEdit;
-                     sqlEditHCprice = sqlite3_mprintf("UPDATE HolidayRun set holidayPrice = '%q' where holidayrunID=%f;", priceEdit,HRIDedit.c_str());
+                     sqlEditHCprice = sqlite3_mprintf("UPDATE HolidayRun set holidayPrice =%f where holidayrunID='%q';", priceEdit,HRIDedit.c_str());
                      HolidayPackageSystem::executeRecord(sqlEditHCprice); 
                  break;
              case 'e':                            
                      cout <<"Enter Holiday Space Per Run : ";
                      cin >> sprEdit;
-                     sqlEditHCspr = sqlite3_mprintf("UPDATE HolidayRun set spacePerHRun = '%q' where holidayrunID=%i;", sprEdit ,HRIDedit.c_str());
+                     sqlEditHCspr = sqlite3_mprintf("UPDATE HolidayRun set spacePerHRun =%i where holidayrunID='%q';", sprEdit ,HRIDedit.c_str());
                      HolidayPackageSystem::executeRecord(sqlEditHCspr); 
                  break;
             case 'x' :
@@ -233,7 +240,7 @@ bool GeneralManager::editStaff()
              case 'd':
                      cout <<"Enter New staff Level : ";
                      cin >> editLevel;
-                     sqlEditSL = sqlite3_mprintf("UPDATE Staff set staffLevel = '%q' where staffID=%i;", editLevel ,staffID.c_str());
+                     sqlEditSL = sqlite3_mprintf("UPDATE Staff set staffLevel =%i where staffID='%q';", editLevel ,staffID.c_str());
                      HolidayPackageSystem::executeRecord(sqlEditSL); 
                  break;
             case 'x' :
