@@ -19,6 +19,7 @@ public:
         static bool editStaff();
         static bool deleteStaff();
         static void GMmenu();
+        static bool viewStatistic();
 };
 
 #endif	/* GENERALMANAGER_H */
