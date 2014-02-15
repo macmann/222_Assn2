@@ -13,8 +13,13 @@
 class GeneralManager : public Staff {
 public:
         static bool createHolidayPackage();
+        static int createHolidayPackageSQL(string , string , string , string , float , int );
+        
         static bool updateHolidayPackage();
+        
         static bool deleteHolidayPackage();
+        static bool deleteHolidayPackageSQL(string);
+
         static bool createStaff();
         static bool editStaff();
         static bool deleteStaff();

@@ -10,16 +10,9 @@
 string dbUsername, dbPassword;
 int staffLVL;
 
-int Staff::login()
+int Staff::login(string stfUsr, string stfPwd)
 {
-    string stfUsr, stfPwd;
     int authenticateValue = -1;
-
-    cout << "Enter username : " ;
-    cin >> stfUsr;
-    
-    cout << "Enter password: ";
-    cin >> stfPwd;
     
     char * sqlAuth;
     sqlAuth = sqlite3_mprintf("SELECT * FROM Staff WHERE staffUserName='%q'", stfUsr.c_str()); 
