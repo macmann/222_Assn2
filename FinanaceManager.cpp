@@ -15,7 +15,7 @@ void FinanceManager::fmMenu() {
     string nric;
     
     while (true) {
-        cout << "\n\n** Finance Manager Menu **" << endl;
+        cout << "\n\n** Finance Staff Menu **" << endl;
         cout << "a) View Confirmed Payments" << endl;
         cout << "b) View Confirmed Payments of a Client" << endl;
         cout << "c) View Cancelled Bookings" << endl;

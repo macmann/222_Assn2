@@ -147,7 +147,7 @@ bool GeneralManager::deleteHolidayPackage()
     deleteHolidayPackageSQL(HRID);
 }
 
-bool GeneralManager::deleteHolidayPackageSQL(string HRID)
+int GeneralManager::deleteHolidayPackageSQL(string HRID)
 {
     char * sqldelHR;
     sqldelHR = sqlite3_mprintf("DELETE FROM HolidayRun WHERE holidayrunID='%q'" , HRID.c_str()); 
@@ -155,6 +155,7 @@ bool GeneralManager::deleteHolidayPackageSQL(string HRID)
     HolidayPackageSystem::executeRecord(sqldelHR);
     
     cout << "\n\nHoliday Run Package is deleted successfully" << endl;
+    return 0;
 }
 
 bool GeneralManager::createStaff()
@@ -182,17 +183,25 @@ bool GeneralManager::createStaff()
     cout << "Enter your choice: " ; 
     cin >> staffLevel;
     
-    cout << "The staff ID issued to the new emplyee is : ";
-    string newID = HolidayPackageSystem::autoID("Staff");
-        char * sqlAddstaff;
+    cout << "The staff ID issued to the new employee is : ";
+
+    createStaffSQL(firstName,lastName, userName, password, staffLevel);
+    
+    cout << "\n\nStaff Account is added successfully" << endl;
+}
+
+int GeneralManager::createStaffSQL(string firstName, string lastName, string userName, string password, int staffLevel)
+{
+     string newID = HolidayPackageSystem::autoID("Staff");
+     char * sqlAddstaff;
 
     sqlAddstaff = sqlite3_mprintf("INSERT INTO Staff VALUES ('%q', '%q', '%q', '%q', '%q', '%i')" ,
                   newID.c_str(), firstName.c_str(), lastName.c_str(), userName.c_str(), password.c_str(), staffLevel); 
 
     HolidayPackageSystem::executeRecord(sqlAddstaff);
-    
-    cout << "\n\nStaff Account is added successfully" << endl;
+    return 0;
 }
+
 
 bool GeneralManager::editStaff()
 {
@@ -264,23 +273,26 @@ bool GeneralManager::editStaff()
 bool GeneralManager::deleteStaff()
 {
     HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
-    int returnVal;
-    
+
     string staffID;
     cout << "Enter the StaffID of staff to delete: " ;
     cin >> staffID;
-       
+    
+    deleteStaffSQL(staffID);
+            
+    cout << "Staff account deleted successfully!" << endl;
+}
+
+
+bool GeneralManager::deleteStaffSQL(string staffID)
+{   
     char * sqldelstaff;
     sqldelstaff = sqlite3_mprintf("DELETE FROM Staff WHERE staffID='%q'" , staffID.c_str()); 
     
-    returnVal = HolidayPackageSystem::executeRecord(sqldelstaff);
-    
-    if(returnVal !=-1)
-        cout << "\n\nStaff Account is deleted successfully" << endl;
-    else
-        cout << "Unexpected error occur, please contact the system admin!" << endl;
-}
+    HolidayPackageSystem::executeRecord(sqldelstaff);
 
+}
+   
 void GeneralManager::GMmenu()
 {
     char gmselect;

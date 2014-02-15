@@ -40,7 +40,7 @@ void TravelTest::GMdeletePackage()
 {
     GeneralManager::deleteHolidayPackageSQL("R007");
     CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM HolidayRun WHERE HolidayRunID='R007';"), 0);
-    cout << "Test 4)Delete Holiday Run Tested" << endl;
+    cout << "Test 3)Delete Holiday Run Tested" << endl;
 
 }
 
@@ -49,9 +49,23 @@ void TravelTest::GMaddPackage()
 {
         GeneralManager::createHolidayPackageSQL("D022", "H001", "12/02/14", "20/02/14", 200, 30);       
         CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM HolidayRun WHERE DestinationCode='D022';"), 1);
-        cout << "Test 3)Add Holiday Run Tested" << endl;
+        cout << "Test 4)Add Holiday Run Tested" << endl;
 }
 
+void TravelTest::GMdeleteStaff()
+{
+    GeneralManager::deleteStaffSQL("S0004");
+    CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Staff WHERE StaffID='S0004';"), 1);
+    cout << "Test 5)Delete Staff Tested" << endl;
+
+}
+
+void TravelTest::GMaddStaff()
+{
+        GeneralManager::createStaffSQL("Sharon", "Lee", "sharon", "sharon123", 4);       
+        CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Staff WHERE StaffUserName='sharon';"), 1);
+        cout << "Test 6)Add Staff Tested" << endl;
+}
 
 /*
 // Test the existence of the Product

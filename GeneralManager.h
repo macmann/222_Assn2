@@ -18,11 +18,16 @@ public:
         static bool updateHolidayPackage();
         
         static bool deleteHolidayPackage();
-        static bool deleteHolidayPackageSQL(string);
+        static int deleteHolidayPackageSQL(string);
 
         static bool createStaff();
+        static int createStaffSQL(string, string, string, string, int);
+
         static bool editStaff();
+        
         static bool deleteStaff();
+        static bool deleteStaffSQL(string);
+        
         static void GMmenu();
         static bool viewStatistic();
 };

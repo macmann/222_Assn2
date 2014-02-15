@@ -81,6 +81,9 @@ int main(int argc, char* argv[])
             case 4: 
                     test.testmain();
                     break;
+            case 5: 
+                HolidayPackageSystem::displayRecord("SELECT * FROM Staff");
+                    break;
             default:
                 break;
         }
