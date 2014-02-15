@@ -17,11 +17,13 @@
 
 int main(int argc, char* argv[])
 {
-    TestMain test;
+//    TestMain test;
     int selector; 
     int menuValue;
     HolidayPackageSystem h;
-    
+    FinanceManager fm;
+    Client c;
+   
     while(1)
     {
         cout << "Holiday Package Management System" << endl;
@@ -45,14 +47,14 @@ int main(int argc, char* argv[])
                     else if(menuValue == 3)
                         BookingStaff::BSMenu();
                     else if(menuValue == 4)
-                        FinanceManager::fmMenu();
+                        fm.fmMenu();
                     else if(menuValue == -1)
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 2: 
-                    menuValue = Client::login();
+                    menuValue = c.login();
                      if(menuValue == 5)
-                         Client::cMenu();
+                         c.cMenu();
                      else if(menuValue == -1)
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
@@ -60,7 +62,7 @@ int main(int argc, char* argv[])
                     insertRecord();    
                     break; 
             case 4: 
-                    test.testmain();
+                   // test.testmain();
                     break;
             default:
                 break;
