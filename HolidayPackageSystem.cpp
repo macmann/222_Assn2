@@ -3,14 +3,16 @@
 bool isTitleCreated = false;
 int rowCount;
 string bookingRefNo = "";
-
+int executeValidation = 0; 
 
 int HolidayPackageSystem::callback (void *NotUsed, int argc, char **argv, char **azColName){
-   int i;
-   for(i=0; i<argc; i++){
-      printf("%s", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
+ 
+    executeValidation = 0;
+    
+    if(argc == 0)
+        executeValidation = 0;
+    else
+        executeValidation = 1;    
    return 0;
 }
 
@@ -30,14 +32,16 @@ int HolidayPackageSystem::countRow (void *NotUsed, int argc, char **argv, char *
 }
 
 /*callback method used in displayRecord command executions*/
-int HolidayPackageSystem::display (void *NotUsed, int argc, char **argv, char **azColName) {
+int HolidayPackageSystem::display (void *NotUsed, int argc, char **argv, char **azColName) 
+{
    int i;
    
    //create title if the title is not yet created
    if (!isTitleCreated) {
        
        for (i = 0; i < argc; i++)
-            cout << setw(15) << left << azColName [i] << "\t";
+           cout << setw(15) << left << azColName [i] << "\t";
+       
         isTitleCreated = true;
         printf("\n");
    }
@@ -111,6 +115,7 @@ string HolidayPackageSystem::autoID (string tableName){
    return autoID;
 }
 
+
 //execute SQL statements (eg. INSERT, UPDATE, DELETE)
 //reduce repetitive codes to execute SQL statements
 //pass the SQL statement to execute it
@@ -134,6 +139,7 @@ int HolidayPackageSystem::executeRecord (const char* sql) {
    }
    
    sqlite3_close(db);
+   return executeValidation;
 }
 
 //display records of the tables
