@@ -15,12 +15,6 @@ class HolidayPackage {
 private:
     string holidayID;
     string holidayType;
-    
-public:
-    string getHolidayPackageID();
-    void setHolidayPackageID(string id);
-    string getHolidayType();
-    void setHolidayType(string type);
 };
 
 #endif	/* HOLIDAYPACKAGE_H */

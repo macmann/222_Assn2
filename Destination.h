@@ -15,11 +15,6 @@ class Destination {
 private:
     string destinationCode;
     string destinationName;
-    
-public:
-    string getDestinationCode();
-    string getDestinationType();
-    void setDestinationType(string);
 };
 
 #endif	/* DESTINATION_H */

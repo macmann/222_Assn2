@@ -18,17 +18,6 @@ private:
     string endDate;
     float holidayPrice;
     int spacePerHRun;
-    
-public:
-    string getHolidayID();
-    string getStartDate();
-    void setStartDate(string);
-    string getEndDate();
-    void setEndDate(string);
-    float getHolidayPrice();
-    void setHolidayPrice(float);
-    int getSpacePerHRun();
-    void setSpacePerHRun(int);
 };
 
 #endif	/* HOLIDAYRUN_H */
