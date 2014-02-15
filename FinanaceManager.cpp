@@ -14,37 +14,42 @@ void FinanceManager::fmMenu() {
     char option;
     string nric;
     
-    cout << "\n\n** Finance Manager Menu **" << endl;
-    cout << "a) View Confirmed Payments" << endl;
-    cout << "b) View Confirmed Payments of a Client" << endl;
-    cout << "c) View Cancelled Bookings" << endl;
-    cout << "d) View Cancelled Bookings of a Client" << endl;
-    cout << "e) View Payment Required Bookings" << endl;
-    cout << "f) View Payment Required Bookings of a Client" << endl;
-    cout << "g) Process Booking" << endl;
-    cout << "Enter your option : ";   
-    cin >> option;
-    
-    if (option  == 'g') 
-        processBooking();
-    else if (option == 'b' || option == 'd' || option =='f') {
-        cout << "Enter client NRIC to view: ";
-        cin >> nric;
-        
-        if (option == 'b')
-            viewConfirmedBooking(nric);
-        else if (option == 'd')
-            viewCancelledBooking(nric);
-        else if (option == 'f') 
-            viewPaymentRequiredBooking(nric);    
-    }
-    else {
-        if (option == 'a')
-            viewConfirmedBooking();
-        else if (option == 'c')
-            viewCancelledBooking();
-        else if (option == 'e')
-            viewPaymentRequiredBooking();
+    while (true) {
+        cout << "\n\n** Finance Manager Menu **" << endl;
+        cout << "a) View Confirmed Payments" << endl;
+        cout << "b) View Confirmed Payments of a Client" << endl;
+        cout << "c) View Cancelled Bookings" << endl;
+        cout << "d) View Cancelled Bookings of a Client" << endl;
+        cout << "e) View Payment Required Bookings" << endl;
+        cout << "f) View Payment Required Bookings of a Client" << endl;
+        cout << "g) Process Booking" << endl;
+        cout << "i) Exit" << endl;
+        cout << "Enter your option : ";   
+        cin >> option;
+
+        if (option  == 'g') 
+            processBooking();
+        else if (option == 'b' || option == 'd' || option =='f') {
+            cout << "Enter client NRIC to view: ";
+            cin >> nric;
+
+            if (option == 'b')
+                viewConfirmedBooking(nric);
+            else if (option == 'd')
+                viewCancelledBooking(nric);
+            else if (option == 'f') 
+                viewPaymentRequiredBooking(nric);    
+        }
+        else if (option == 'a' || option == 'c' || option == 'e'){
+            if (option == 'a')
+                viewConfirmedBooking();
+            else if (option == 'c')
+                viewCancelledBooking();
+            else if (option == 'e')
+                viewPaymentRequiredBooking();
+        }
+        else 
+            break;
     }
 }
 
@@ -53,17 +58,25 @@ void FinanceManager::fmMenu() {
 bool FinanceManager::viewConfirmedBooking() { 
   
     HolidayPackageSystem::displayRecord("SELECT * FROM Booking WHERE BookingStatus = 'Confirmed';");
-        
+    cout << endl;
+    
+    return true;
 }
 
 //view all the clients who cancelled bookings
 bool FinanceManager::viewCancelledBooking() {
-    HolidayPackageSystem::displayRecord("SELECT * FROM Booking WHERE BookingStatus = 'Cancelled';");          
+    HolidayPackageSystem::displayRecord("SELECT * FROM Booking WHERE BookingStatus = 'Cancelled';");  
+    cout << endl;
+    
+    return true;
 }
 
 //view all the clients who need to make payment 
 bool FinanceManager::viewPaymentRequiredBooking() {
     HolidayPackageSystem::displayRecord("SELECT * FROM Booking WHERE BookingStatus = 'Payment';");
+    cout << endl;
+    
+    return true;
 }
 
 //view a specific client who already made payment
@@ -72,6 +85,9 @@ bool FinanceManager::viewConfirmedBooking(string NRIC) {
     , NRIC.c_str());
 
     HolidayPackageSystem::displayRecord(sql);
+    cout << endl;
+    
+    return true;
  }  
 
 //view a specific client who cancelled bookings
@@ -81,6 +97,10 @@ bool FinanceManager::viewCancelledBooking(string NRIC) {
     , NRIC.c_str());
     
     HolidayPackageSystem::displayRecord(sql);
+    
+    cout << endl;
+    
+    return true;
 }
 
 //view a specific client who needs to make payment
@@ -89,6 +109,10 @@ bool FinanceManager::viewPaymentRequiredBooking(string NRIC) {
     , NRIC.c_str());
     
     HolidayPackageSystem::displayRecord(sql);
+    
+    cout << endl;
+    
+    return true;
 }
         
 //update booking status to confirmed after client made payment
@@ -124,8 +148,8 @@ void FinanceManager::processBooking() {
 //confirm booking by BookingRefNo
 //update the spacePerHRun if the booking status is confirmed
 bool FinanceManager::confirmBooking(string bookingRefNo) {
-    HolidayPackageSystem::displayRecord("SELECT * FROM HolidayRun"); 
-    char * sql = sqlite3_mprintf("UPDATE Booking SET BookingStatus = 'Confirmed' WHERE BookingRefNo = '%s';", bookingRefNo.c_str());
+    
+    char * sql = sqlite3_mprintf("UPDATE Booking SET BookingStatus = 'Confirmed' WHERE BookingRefNo = '%s' AND BookingStatus = 'Payment';", bookingRefNo.c_str());
     HolidayPackageSystem::executeRecord(sql);  
     
     //update the spacePerHRun in HolidayRun
@@ -134,7 +158,10 @@ bool FinanceManager::confirmBooking(string bookingRefNo) {
     char * sqlUpdate = sqlite3_mprintf("UPDATE HolidayRun SET spacePerHRun = (spacePerHRun - 1) WHERE HolidayRunID = (SELECT HolidayRunID FROM Booking WHERE BookingRefNo = '%s');"
     ,bookingRefNo.c_str());
     HolidayPackageSystem::executeRecord(sqlUpdate);  
-    HolidayPackageSystem::displayRecord("SELECT * FROM HolidayRun");  
+    
+    cout << "\nHoliday Run" << endl;
+    HolidayPackageSystem::displayRecord("select * from holidayrun;");
+    return true;
 }
 
 
@@ -178,7 +205,6 @@ float FinanceManager::calculatePenalty(string bookingRefNo) {
         buffer2 >> intBMonth;
 
         monthDifference = intSMonth - intBMonth;
-        cout << endl << "month diff " << monthDifference;
 
         sDate = startDate.substr(0,2);
         bDate = bookingDate.substr(0,2);
@@ -193,23 +219,35 @@ float FinanceManager::calculatePenalty(string bookingRefNo) {
             
             dateDifference = intBDate - intSDate;  
         }
-        else if (monthDifference == 0) {
+        else if (monthDifference == 0) 
             dateDifference = intSDate - intBDate;
-            cout << "The package is cancelled " << dateDifference << " days before the trip" << endl;
-            if (dateDifference <= 14) 
+        
+        cout << "\nCancelled date: " << bookingDate << endl;
+        cout << "Holiday package start date: " << startDate << endl;
+        
+        if (monthDifference <= 1) {
+            if (dateDifference <= 14) {
+                cout << "The trip is in less than 2 weeks!" << endl;
                 cout << "The client is liable to pay half the cost of the holiday $" << (price/2) << " and deposit $" << deposit << endl;
 
-            else if (dateDifference <= 28)
-                cout << "The client is liable to pay the deposit $" << deposit << endl;
+            }
+            else if (dateDifference <= 28) {
+                cout << "The trip is in less than 4 weeks!" << endl;
+                 cout << "The client is liable to pay the deposit $" << deposit << endl;
+            }
         }
         else
             cout << "Refund deposit $" << deposit << " to the client" << endl;
-            
+
     } 
    sqlite3_close(db);
+   
+   cout << endl;
+    
+    return true;
 }
 
-//call back method to retrieve deposit 
+//call back method to retrieve deposit , holiday package price, start date and booking date
 int FinanceManager::retrieveData (void *arg, int argc, char **argv, char **azColName) {
     string strDeposit = argv [0];
     string strPrice = argv [1];
@@ -220,7 +258,8 @@ int FinanceManager::retrieveData (void *arg, int argc, char **argv, char **azCol
     buffer >> deposit;
     stringstream buffer2 (strPrice);
     buffer2 >> price;
-    cout << deposit << " " << price << " " << startDate << " " << bookingDate;
+    
     return 0;
 }
+
 
