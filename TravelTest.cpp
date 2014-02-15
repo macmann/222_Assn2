@@ -5,6 +5,7 @@
 using namespace std;
 CPPUNIT_TEST_SUITE_REGISTRATION (TravelTest);
 
+Client c;
 
 void TravelTest::testLogin()
 {
@@ -22,13 +23,13 @@ void TravelTest::testLogin()
 
 void TravelTest::clienttestLogin()
 {
-    CPPUNIT_ASSERT_EQUAL(Client::login("G1111111K", "vera123"),5);
-    CPPUNIT_ASSERT_EQUAL(Client::login("S1234567S", "kaung123"),5);
+    CPPUNIT_ASSERT_EQUAL(c.login("G1111111K", "vera123"),5);
+    CPPUNIT_ASSERT_EQUAL(c.login("S1234567S", "kaung123"),5);
 
-    CPPUNIT_ASSERT_EQUAL(Client::login(" ", " "),-1);
-    CPPUNIT_ASSERT_EQUAL(Client::login("xxxx", "xxxx"),-1);
-    CPPUNIT_ASSERT_EQUAL(Client::login("james", "xxxx"),-1);
-    CPPUNIT_ASSERT_EQUAL(Client::login("james", "terence123"),-1);
+    CPPUNIT_ASSERT_EQUAL(c.login(" ", " "),-1);
+    CPPUNIT_ASSERT_EQUAL(c.login("xxxx", "xxxx"),-1);
+    CPPUNIT_ASSERT_EQUAL(c.login("james", "xxxx"),-1);
+    CPPUNIT_ASSERT_EQUAL(c.login("james", "terence123"),-1);
 
     cout << "Test 2)Client Login tested" << endl;
 }
