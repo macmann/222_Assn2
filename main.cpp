@@ -14,19 +14,21 @@
 #include "FinanaceManager.h"
 #include "Client.h"
 #include "TestMain.h"
-#include <windows.h>
+//#include <windows.h>
 
 int main(int argc, char* argv[])
 {
-    ShellExecute(NULL, "open", "http://.net",
-                NULL, NULL, SW_SHOWNORMAL);
-//    TestMain test;
+//    ShellExecute(NULL, "open", "http://.net",
+ //               NULL, NULL, SW_SHOWNORMAL);
+    TestMain test;
+    string stfUsr, stfPwd;
+    string clientNRIC, clientPwd;
     int selector; 
     int menuValue;
     HolidayPackageSystem h;
     FinanceManager fm;
     Client c;
-   
+    
     while(1)
     {
         cout << "SmartTravel Booking Management System" << endl;
@@ -42,7 +44,13 @@ int main(int argc, char* argv[])
         switch (selector)
         {
             case 1: 
-                    menuValue = Staff::login();
+                    cout << "Enter username : " ;
+                    cin >> stfUsr;
+
+                    cout << "Enter password: ";
+                    cin >> stfPwd;
+                    
+                    menuValue = Staff::login(stfUsr, stfPwd);
                     if(menuValue == 1)
                         GeneralManager::GMmenu();
                     else if(menuValue == 2)
@@ -55,7 +63,13 @@ int main(int argc, char* argv[])
                         cout << "Login Unsuccessful! Please try again!" << endl;
                     break;
             case 2: 
-                    menuValue = c.login();
+                    cout << "Enter NRIC : " ;
+                    cin >> clientNRIC;
+
+                    cout << "Enter password: ";
+                    cin >> clientPwd;
+
+                    menuValue = c.login(clientNRIC, clientPwd);
                      if(menuValue == 5)
                          c.cMenu();
                      else if(menuValue == -1)
@@ -65,7 +79,7 @@ int main(int argc, char* argv[])
                     insertRecord();    
                     break; 
             case 4: 
-                   // test.testmain();
+                    test.testmain();
                     break;
             default:
                 break;
