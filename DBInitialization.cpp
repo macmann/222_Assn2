@@ -119,21 +119,26 @@ void insertRecord()
         "INSERT INTO HolidayPackage VALUES ('H003', 'Big Adventure', 'D003');" \
 
         "INSERT INTO HolidayRun VALUES ('R001', 'H002', 'D001', '09/02/2014', '11/02/2014', 3000, 50);" \
-        "INSERT INTO HolidayRun VALUES ('R002', 'H002', 'D002', '01/03/2014', '03/03/2014', 3500, 30);" \
+        "INSERT INTO HolidayRun VALUES ('R002', 'H002', 'D001', '01/03/2014', '03/03/2014', 3500, 30);" \
         "INSERT INTO HolidayRun VALUES ('R003', 'H003', 'D003', '01/04/2014', '28/03/2014', 20000, 60);" \
-        "INSERT INTO HolidayRun VALUES ('R004', 'H002', 'D001', '16/02/2014', '01/03/2014', 7000, 40);" \
+        "INSERT INTO HolidayRun VALUES ('R004', 'H001', 'D002', '16/02/2014', '01/03/2014', 7000, 40);" \
 
-        "INSERT INTO Client VALUES ('G1111111K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi Ave St', 'Clementi', 'Singapore', 'SG111111');" \
-        "INSERT INTO Client VALUES ('S1234567S', 'kaung@gmail.com', 'kaung123', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
-        "INSERT INTO Client VALUES ('S2222222S', 'kristy@gmail.com', 'kristy123', 'Kristy', 'Pungool', 'Pungool Street', 'Singapore', 'Singapore', 'S520874');" \
-
-        "INSERT INTO Booking VALUES('B00001', '09/02/2014', 'Waiting', 200, '-', 'R001', 'G12345678K');" \
-        "INSERT INTO Booking VALUES('B00002', '07/02/2014', 'Confirmed', 500, '-', 'R002', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('B00003', '07/02/2014', 'Checked', 500, '-', 'R002', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('B00004', '07/02/2014', 'Complete', 500, '-', 'R004', 'S12345678D');" \
-        "INSERT INTO Booking VALUES('B00005', '07/02/2014', 'Complete', 900, '-', 'R003', 'S12345678D');";
-
-
+        "INSERT INTO Client VALUES ('G1111111K', 'vera@gmail.com', 'vera123', 'Vera', 'Aung', 'Clementi Ave St', 'Clementi', 'Singapore', 'SG111111');"\
+        "INSERT INTO Client VALUES ('S12345678S', 'kaung@gmail.com', 'kaung', 'Kaung', 'San Phyoe', 'Lan Bay St', 'La Har Pyin', 'Nay Pyi Taw', 'M234567');" \
+        
+        "INSERT INTO Booking VALUES('B00001', '01/01/2014', 'Waiting', 200, 'Nothing Required', 'R001', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00002', '03/01/2014', 'Cancelled', 100, 'Blanket and Coffee', 'R001', 'G1111111K');" \
+        "INSERT INTO Booking VALUES('B00003', '12/01/2014', 'Checked', 260, 'Nothing Required', 'R004', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00004', '22/01/2014', 'Cancelled', 500, 'Tour guide for trip', 'R003', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00005', '01/02/2014', 'Waiting', 900, 'Tour guide for trip', 'R001', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00006', '02/02/2014', 'Cancelled', 500, 'Nothing Required', 'R004', 'G1111111K');" \
+        "INSERT INTO Booking VALUES('B00007', '09/02/2014', 'Checked', 700, 'Tour guide for trip', 'R002', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00008', '12/02/2014', 'Confirmed', 500, 'Blanket and Coffee', 'R004', 'G1111111K');" \
+        "INSERT INTO Booking VALUES('B00009', '13/02/2014', 'Confirmed', 900, 'Nothing Required', 'R003', 'G1111111K');"\
+        "INSERT INTO Booking VALUES('B00010', '13/02/2014', 'Payment', 500, 'Assistance for elderly', 'R004', 'S12345678S');" \
+        "INSERT INTO Booking VALUES('B00011', '14/02/2014', 'Payment', 900, 'Blanket and Coffee', 'R003', 'G1111111K');";
+       
+        
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, HolidayPackageSystem::callback, 0, &zErrMsg);
    if( rc != SQLITE_OK ){
