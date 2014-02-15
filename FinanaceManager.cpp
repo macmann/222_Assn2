@@ -163,6 +163,8 @@ bool FinanceManager::confirmBooking(string bookingRefNo) {
     
   //  cout << "\nHoliday Run" << endl;
  //   HolidayPackageSystem::displayRecord("select * from holidayrun;");
+    
+    cout << "The record has been updated to complete!" << endl;
     return returnVal;
 }
 

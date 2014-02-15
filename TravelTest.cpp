@@ -6,25 +6,50 @@
 #include "HolidayManager.h"
 #include "BookingStaff.h"
 
+#define ITERATION3
+#define ITERATION2
+#define ITERATION1
+
 using namespace std;
 CPPUNIT_TEST_SUITE_REGISTRATION (TravelTest);
 
 Client c;
 FinanceManager fm;
 
+#if defined ITERATION1
+
 void TravelTest::testLogin()
 {
     CPPUNIT_ASSERT_EQUAL(Staff::login("james", "james123"),1);
+    cout << "Login Successful with correct username and password (GM)" << endl;
+    
     CPPUNIT_ASSERT_EQUAL(Staff::login("terence", "terence123"),2);
+    cout << "Login Successful with correct username and password (HM)" << endl;
+     
     CPPUNIT_ASSERT_EQUAL(Staff::login("mary", "mary123"),3);
+    cout << "Login Successful with correct username and password (BS)" << endl;
+    
     CPPUNIT_ASSERT_EQUAL(Staff::login("sharon", "sharon123"),4);
+    cout << "Login Successful with correct username and password (FS)" << endl;
+    
     CPPUNIT_ASSERT_EQUAL(Staff::login(" ", " "),-1);
+    cout << "Login without username and password (Fail)" << endl;
+    
     CPPUNIT_ASSERT_EQUAL(Staff::login("xxxx", "xxxx"),-1);
+    cout << "Login without invalid username and invalid password " << endl;
+    
     CPPUNIT_ASSERT_EQUAL(Staff::login("james123", "james"),-1);
+    cout << "Login without swapped username and password" << endl;
+
     CPPUNIT_ASSERT_EQUAL(Staff::login("james", "terence123"),-1);
+    cout << "Login without swapped username and password across different accounts" << endl;
 
     cout << "Test 1)Staff Login tested" << endl;
 }
+
+#endif
+
+#if defined ITERATION2
 
 void TravelTest::clienttestLogin()
 {
@@ -53,6 +78,10 @@ void TravelTest::GMaddPackage()
         CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM HolidayRun WHERE DestinationCode='D022';"), 1);
         cout << "Test 4)Add Holiday Run Tested" << endl;
 }
+#endif
+
+
+#if defined ITERATION1
 
 void TravelTest::GMdeleteStaff()
 {
@@ -62,12 +91,17 @@ void TravelTest::GMdeleteStaff()
 
 }
 
+
 void TravelTest::GMaddStaff()
 {
         GeneralManager::createStaffSQL("Sharon", "Lee", "sharon", "sharon123", 4);       
         CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Staff WHERE StaffUserName='sharon';"), 1);
         cout << "Test 6)Add Staff Tested" << endl;
 }
+
+#endif
+
+#if defined ITERATION3
 
 void TravelTest::FSconfirmBooking()
 {
@@ -78,7 +112,8 @@ void TravelTest::FSconfirmBooking()
 
 void TravelTest::HMprocessBooking()
 {
-        HolidayManager::ProcessBookingSQL("Payment", "B00005");        CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Booking where bookingStatus='Payment' AND BookingRefNo='B0005'"), 1);
+        HolidayManager::ProcessBookingSQL("Payment", "B00005");        
+        CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Booking where bookingStatus='Payment' AND BookingRefNo='B0005'"), 1);
         cout << "Test 8)Holiday Manager Update Booking Status Tested" << endl;
 }
 
@@ -88,42 +123,4 @@ void TravelTest::BSprocessBooking()
         CPPUNIT_ASSERT_EQUAL(HolidayPackageSystem::executeRecord("SELECT * FROM Booking where bookingStatus='Checked' AND BookingRefNo='B0001'"), 1);
         cout << "Test 9)Booking Staff Update Booking Status Tested" << endl;
 }
-/*
-// Test the existence of the Product
-void POSTest::testSeachProduct()
-{
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct("001"),1);
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct("002"),0);
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct("003"),1);
-        
-    cout << " Test 1)testSearchProduct tested" << endl;
-}
-
-// Test the successful of adding product
-void POSTest::testAddProduct()
-{   
-    Stk.AddProduct("011","Hero", "MobilePhone",
-                    "HTC","890", "150");
-    string toTest ="011:Hero:MobilePhone:HTC:890:150";
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct(toTest),1);
-    cout << " Test 2)testAddProduct tested" << endl;
-}
-
-// Test the successful of edit product information
-void POSTest::testEditProduct()
-{   
-    Stk.EditStock("Window","Linux");
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct("Linux"),1);
-    cout << " Test 3)testEditProduct tested" << endl;
-}
-
-// Test the successful of delete a product
-void POSTest::testDeleteProduct()
-{   
-    Stk.DeleteProduct("011");
-    CPPUNIT_ASSERT_EQUAL(Stk.SearchProduct("011"),0);
-    cout << " Test 4) testDeleteProduct tested" << endl;
-}
-
-
-*/
+#endif
